@@ -1,0 +1,18 @@
+# The solvers
+applications/modules/darcy/darcy.C
+#applications/modules/multiphaseDarcy/multiphaseDarcy.C
+
+# The class modelling porous media
+libraries/porousMedia/porousMedia.C
+
+# Geochemistry models
+libraries/porousMedia/geochemistry/geochemistryModel.C
+libraries/porousMedia/geochemistry/geochemistryNone/geochemistryNone.C
+# Absolute permeability models
+libraries/porousMedia/absolutePermeability/absolutePermeabilityModel.C
+libraries/porousMedia/absolutePermeability/absolutePermeabilityConst/absolutePermeabilityConst.C
+
+# A class modelling a mineral
+libraries/porousMedia/geochemistry/mineral/mineral.C
+
+LIB=$(FOAM_USER_LIBBIN)/libdarcy
