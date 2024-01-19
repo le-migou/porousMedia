@@ -24,7 +24,6 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "geochemistryModel.H"
-#include "volFields.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -42,9 +41,12 @@ namespace Foam
 
 Foam::geochemistryModel::geochemistryModel
 (
-      const fvMesh& mesh
-    , const dictionary& dict
+    fvMesh const& mesh,
+    dictionary const& dict,
+    fluidThermo const& fluidThermo
 ) 
+:
+    fluidThermo_(fluidThermo)
 {}
 
 
@@ -53,11 +55,11 @@ Foam::geochemistryModel::geochemistryModel
 Foam::autoPtr<Foam::geochemistryModel>
 Foam::geochemistryModel::New
 (
-      const fvMesh& mesh
-    , const dictionary& dict
+    fvMesh const& mesh,
+    dictionary const& dict,
+    fluidThermo const& fluidThermo
 )
 {
-
     const word modelType = dict.lookup("geochemistryModel");
 
     Info<< "Selecting absolute permeability model " << modelType << endl;
@@ -78,8 +80,9 @@ Foam::geochemistryModel::New
     return autoPtr<geochemistryModel>
     (
         cstrIter()(
-              mesh
-            , dict
+            mesh,
+            dict,
+            fluidThermo
         )
     );
 }

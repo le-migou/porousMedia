@@ -25,7 +25,7 @@ Class
     Foam::absolutePermeabilityModels::absolutePermeabilityConst
 
 Description
-    TODO
+    A class for porous medium with constant absolute permeability.
 
 SourceFiles
     absolutePermeabilityConst.C

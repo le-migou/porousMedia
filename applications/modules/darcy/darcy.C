@@ -30,16 +30,17 @@ License
 #include "surfaceInterpolate.H"
 #include "fvmLaplacian.H"
 #include "fvcReconstruct.H"
+#include "volFieldsFwd.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
 namespace Foam
 {
-namespace solvers
-{
-    defineTypeNameAndDebug(darcy, 0);
-    addToRunTimeSelectionTable(solver, darcy, fvMesh);
-}
+    namespace solvers
+    {
+        defineTypeNameAndDebug(darcy, 0);
+        addToRunTimeSelectionTable(solver, darcy, fvMesh);
+    }
 }
 
 
@@ -49,23 +50,12 @@ Foam::solvers::darcy::darcy(fvMesh& mesh)
 : 
     solver(mesh),
     porousMedia_(mesh),
+    p_(porousMedia_.p()),
     K_(porousMedia_.K()),     
     mu_(porousMedia_.mu()),   
     rho_(porousMedia_.rho()), 
     g_(porousMedia_.g()),
     sourceTerm_ (porousMedia_.massSourceTerm()),
-    p_
-    (
-        IOobject
-        (
-            "p",
-            runTime.timeName(),
-            mesh,
-            IOobject::MUST_READ,
-            IOobject::AUTO_WRITE
-        ),
-        mesh
-    ),
     U_
     (
         IOobject
@@ -121,35 +111,27 @@ void Foam::solvers::darcy::thermophysicalPredictor()
 
 void Foam::solvers::darcy::pressureCorrector()
 {
-    // Info << "pressureCorrector ()\n";
-
     surfaceTensorField Mf = fvc::interpolate(
         porousMedia_.K() / porousMedia_.mu()
     );
     surfaceScalarField phiG = ((fvc::interpolate(rho_) * Mf) & g_) & mesh.Sf();
-
     fvScalarMatrix pEqn
     (
         fvm::laplacian(Mf, p_) + fvc::div(phiG) - sourceTerm_
     );
-
     pEqn.solve();
-
     surfaceScalarField phi = pEqn.flux() + phiG;
-
     U_ = fvc::reconstruct(phi);
     U_.correctBoundaryConditions();
 }
 
 void Foam::solvers::darcy::postCorrector()
 {
-
     // Info << "postCorrector ()\n";
 }
 
 void Foam::solvers::darcy::postSolve()
 {
-
     // Info << "postSolve ()\n";
 }
 

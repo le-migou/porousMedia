@@ -8,14 +8,41 @@
 FoamFile
 {
     format      ascii;
-    class       uniformDimensionedVectorField;
-    location    "constant";
-    object      g;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions      [0 1 -2 0 0 0 0];
-value           (0 -9.81 0);
+divSchemes
+{}
 
+gradSchemes
+{
+    default Gauss linear;
+}
+
+laplacianSchemes
+{
+    default Gauss linear orthogonal;
+}
+
+interpolationSchemes
+{
+    default linear;
+}
+
+snGradSchemes
+{
+    default orthogonal;
+}
+
+ddtSchemes
+{}
+
+fluxRequired
+{
+    p;
+}
 
 // ************************************************************************* //

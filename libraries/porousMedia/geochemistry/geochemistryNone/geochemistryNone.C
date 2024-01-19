@@ -23,7 +23,6 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "volFields.H"
 #include "geochemistryNone.H"
 #include "addToRunTimeSelectionTable.H"
 
@@ -46,15 +45,16 @@ namespace geochemistryModels
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 geochemistryNone::geochemistryNone(
-    const fvMesh& mesh,
-    const dictionary& dict
+    fvMesh const& mesh,
+    dictionary const& dict,
+    fluidThermo const& fluidThermo
 )
 : 
     geochemistryModel(
         mesh, 
-        dict
+        dict,
+        fluidThermo
     ), 
-    fluidThermo_(fluidThermo::New(mesh)),
     coeffDict_(dict.subDict(type() + "Coeffs")), 
     eps0_("eps0", dimless, coeffDict_), 
     eps_
@@ -100,12 +100,12 @@ volScalarField const& geochemistryNone::eps() const
 
 volScalarField const& geochemistryNone::rho() const
 {
-    return fluidThermo_->rho();
+    return fluidThermo_.rho();
 }
 
 volScalarField const& geochemistryNone::mu() const
 {
-    return fluidThermo_->mu();
+    return fluidThermo_.mu();
 }
 
 volScalarField const& geochemistryNone::massSourceTerm() const

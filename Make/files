@@ -1,6 +1,5 @@
 # The solvers
 applications/modules/darcy/darcy.C
-#applications/modules/multiphaseDarcy/multiphaseDarcy.C
 
 # The class modelling porous media
 libraries/porousMedia/porousMedia.C

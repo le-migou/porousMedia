@@ -25,7 +25,7 @@ Class
     Foam::geochemistryModels::geochemistryNone
 
 Description
-    TODO
+    Geochemistry class that does no geochemistry. It merely provides a porosity.
 
 SourceFiles
     geochemistryNone.C
@@ -36,7 +36,6 @@ SourceFiles
 #define geochemistryConst_H
 
 #include "../geochemistryModel.H"
-#include "fluidThermo.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -56,9 +55,6 @@ class geochemistryNone
 
     // Private Data
     
-        //- Thermodynamic
-        autoPtr<fluidThermo> fluidThermo_;
-
         //- Model coefficients dictionary
         dictionary coeffDict_;
 
@@ -81,8 +77,9 @@ public:
 
         //- Construct from components
         geochemistryNone(
-            const fvMesh& mesh,
-            const dictionary& dict
+            fvMesh const& mesh,
+            dictionary const& dict,
+            fluidThermo const& fluidThermo
         );
 
         //- Disallow default bitwise copy construction

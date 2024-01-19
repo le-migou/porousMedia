@@ -26,7 +26,7 @@ Class
     Foam::absolutePermeabilityModel
 
 Description
-    TODO
+    Base class for the absolute permeablity models of a porous medium.
 
 SourceFiles
     absolutePermeabilityModel.C

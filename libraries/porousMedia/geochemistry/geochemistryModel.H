@@ -25,7 +25,8 @@ Class
     Foam::geochemistryModel
 
 Description
-    TODO
+    Base class for modelling the dissoution, transport and precipitation of 
+    dissolved minerals in porous media.
 
 SourceFiles
     geochemistryModel.C
@@ -40,6 +41,7 @@ SourceFiles
 #include "runTimeSelectionTables.H"
 #include "hashedWordList.H"
 #include "mineral.H"
+#include "fluidThermo.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -53,6 +55,9 @@ namespace Foam
 class geochemistryModel
 {
 protected:
+
+        //- Thermodynamics of the pure fluid
+        fluidThermo const& fluidThermo_;
 
         //- List of mineral names
         hashedWordList mineral_names_;
@@ -77,13 +82,14 @@ public:
             geochemistryModel,
             dictionary,
             (
-                  const fvMesh& mesh
-                , const dictionary& dict
-            
+                fvMesh const& mesh, 
+                dictionary const& dict,
+                fluidThermo const& fluidThermo
             ),
             (
-                  mesh
-                , dict
+                mesh, 
+                dict,
+                fluidThermo
             )
         );
 
@@ -92,8 +98,9 @@ public:
 
         //- Construct from components
         geochemistryModel(
-              const fvMesh& mesh
-            , const dictionary& dict
+            fvMesh const& mesh,
+            dictionary const& dict,
+            fluidThermo const& fluidThermo
         );
 
         //- Disallow default bitwise copy construction
@@ -105,9 +112,9 @@ public:
         //- Return a reference to the selected absolute permeability model
         static autoPtr<geochemistryModel> New
         (
-              const fvMesh& mesh
-            , const dictionary& dict
-            
+            fvMesh const& mesh,
+            dictionary const& dict,
+            fluidThermo const& fluidThermo
         );
 
 

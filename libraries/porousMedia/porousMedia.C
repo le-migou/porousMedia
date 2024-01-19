@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     | Website:  https://openfoam.org
-    \\  /    A nd           | Copyright (C) 2021 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2022-2023 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -64,7 +64,8 @@ Foam::porousMedia::porousMedia
 )
 :
     IOdictionary(findModelDict(mesh, true)),
-    geochemistryModel_(geochemistryModel::New(mesh, *this)),
+    fluidThermo_(fluidThermo::New(mesh)),
+    geochemistryModel_(geochemistryModel::New(mesh, *this, fluidThermo_)),
     absolutePermeabilityModel_(absolutePermeabilityModel::New(mesh, *this)),
     g_
     (

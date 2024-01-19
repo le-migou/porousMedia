@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     | Website:  https://openfoam.org
-    \\  /    A nd           | Version:  dev
+    \\  /    A nd           | Version:  11
      \\/     M anipulation  |
 \*---------------------------------------------------------------------------*/
 FoamFile
@@ -14,7 +14,22 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+solvers
+{
+    "(p|pFinal)"
+    {
+        solver PCG;
+        preconditioner DIC;
+        tolerance 1e-5;
+        relTol 0;
+    }
+    ddtSchemes
+    {}
+}
+
 PIMPLE
-{}
+{
+    nNonOrthogonalCorrectors 0;
+}
 
 // ************************************************************************* //

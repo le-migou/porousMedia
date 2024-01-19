@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     | Website:  https://openfoam.org
-    \\  /    A nd           | Copyright (C) 2021 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2022-2023 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -40,7 +40,6 @@ SourceFiles
 #include "geochemistryModel.H"
 #include "absolutePermeabilityModel.H"
 #include "uniformDimensionedFields.H"
-#include "volFields.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -59,6 +58,11 @@ class porousMedia
     IOdictionary
 {
     // Private member data
+
+        // The thermo-physical package for the pure fluid.
+        // It is here because it is it who owns the pressure fields (for some
+        // reasons)
+        autoPtr<fluidThermo> fluidThermo_;
 
         // Model for the geochemistry
         autoPtr <geochemistryModel> geochemistryModel_;
@@ -104,6 +108,11 @@ public:
         virtual bool read();
         */
 
+        //- Pressure
+        volScalarField& p()
+        {
+            return fluidThermo_->p();
+        }
 
         //- Porosity
         volScalarField const& eps() const

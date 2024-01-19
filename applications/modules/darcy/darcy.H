@@ -25,6 +25,7 @@ Class
     isto::foam::solvers::darcy
 
 Description
+    Solves the Darcy law of flow through a porous medium.
 
 SourceFiles
     darcy.C
@@ -36,7 +37,6 @@ SourceFiles
 
 #include "solver.H"
 #include "porousMedia.H"
-#include "buoyancy.H"
 #include "volFieldsFwd.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -55,65 +55,32 @@ class darcy
     public solver
 {
     // Private data
-
-        //- The porous media
+        //
+        //- The porous medium properties and models
         porousMedia porousMedia_;
 
-        //- Shortcuts
+        //- The pressure is held by the porousMedia class, because it belongs
+        // to OpenFOAM's fluidThermo class.
+        volScalarField& p_;
+
+        //- Porous properties
         volTensorField const& K_;
         volScalarField const& mu_;
         volScalarField const& rho_;
         uniformDimensionedVectorField const& g_;
         volScalarField const& sourceTerm_;
 
-        //- The pressure field
-        volScalarField p_;
-
         //- The velocity field
         volVectorField U_;
-
-
-    // Kinematic properties
-
-        /*
-        //- Velocity field
-        volVectorField U_;
-        */
-        /*
-        surfaceTensorField Mf_;
-        surfaceScalarField phiG_;
-        */
-        /*
-    surfaceScalarField phiPc;
-        */
-
-protected:
 public:
 
     // Public Data
-
-        /*
-        //- Reference to the fluid thermophysical properties
-        const fluidThermo& thermo;
-
-        //- Reference to the pressure field
-        const volScalarField& p;
-
-        //- Reference to the continuity density field
-        const volScalarField& rho;
-
-        //- Velocity field
-        const volVectorField& U;
-        */
 
     //- Runtime type information
     TypeName("darcy");
 
 
     // Constructors
-
-        //- Construct from region mesh and thermophysical properties
-        //darcy(fvMesh& mesh, autoPtr<fluidThermo> thermo);
 
         //- Construct from region mesh
         darcy(fvMesh& mesh);
