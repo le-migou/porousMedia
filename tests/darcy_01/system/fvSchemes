@@ -38,7 +38,9 @@ snGradSchemes
 }
 
 ddtSchemes
-{}
+{
+    default whatever;
+}
 
 fluxRequired
 {

@@ -19,3 +19,7 @@ EXE_INC =                                                                       
 LIB_LIBS =                      \
     -lOpenFOAM                  \
     -lfluidThermophysicalModels \
+    -L$(FOAM_USER_LIBBIN)       \
+    -lporousMedia               \
+    -lmultiphasePorousMedia     \
+    -lcompressibleMultiphaseVoF \
