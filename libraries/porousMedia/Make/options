@@ -10,6 +10,9 @@ EXE_INC =                                                                       
     -I$(LIB_SRC)/ThermophysicalTransportModels/fluidThermo/lnInclude                  \
     -I$(LIB_SRC)/ThermophysicalTransportModels/fluid/lnInclude/lnInclude              \
     -I$(LIB_SRC)/ThermophysicalTransportModels/thermophysicalTransportModel/lnInclude \
+    -I$(FOAM_APP)/modules/compressibleMultiphaseVoF/lnInclude                         \
+    -I$(FOAM_APP)/modules/multiphaseVoFSolver/lnInclude                               \
+    -I$(FOAM_APP)/modules/VoFSolver/lnInclude                                         \
 
 LIB_LIBS =                      \
     -lOpenFOAM                  \

@@ -1,0 +1,10 @@
+porousMedia.C
+
+geochemistry/geochemistryModel.C
+geochemistry/geochemistryNone/geochemistryNone.C
+absolutePermeability/absolutePermeabilityModel.C
+absolutePermeability/absolutePermeabilityConst/absolutePermeabilityConst.C
+
+geochemistry/mineral/mineral.C
+
+LIB=$(FOAM_USER_LIBBIN)/libporousMedia
