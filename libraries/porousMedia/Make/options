@@ -13,6 +13,7 @@ EXE_INC =                                                                       
     -I$(FOAM_APP)/modules/compressibleMultiphaseVoF/lnInclude                         \
     -I$(FOAM_APP)/modules/multiphaseVoFSolver/lnInclude                               \
     -I$(FOAM_APP)/modules/VoFSolver/lnInclude                                         \
+    -I../../common/lnInclude                                                              \
 
 LIB_LIBS =                      \
     -lOpenFOAM                  \

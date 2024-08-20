@@ -61,7 +61,7 @@ Foam::solvers::darcy::darcy(fvMesh& mesh)
         IOobject
         (
             "U",
-            runTime.timeName(),
+            runTime.name(),
             mesh,
             IOobject::READ_IF_PRESENT,
             IOobject::AUTO_WRITE
@@ -90,6 +90,11 @@ void Foam::solvers::darcy::preSolve()
 }
 
 void Foam::solvers::darcy::moveMesh()
+{
+    // Info << "moveMesh ()\n";
+}
+
+void Foam::solvers::darcy::motionCorrector()
 {
     // Info << "moveMesh ()\n";
 }

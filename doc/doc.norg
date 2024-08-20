@@ -3,12 +3,11 @@ title: The `porousMedia` package
 description: Documentation for the `porousMedia` package for OpenFOAM.
 authors: Emmanuel LE TRONG
 created: 2024-01-09
-updated: 2024-01-19T17:18:56+0100
+updated: 2024-08-20T18:17:48+0100
 @end
 
 * Introduction
-
-  `porousMedia` is an OpenFOAM  package (i.e. a set of solvers with a support 
+  `porousMedia` is an OpenFOAM  package (a set of solvers with a support
   library) intended to solve multi-scale hydro-geochemistry simulations at the
   Darcy scale.
 
@@ -20,114 +19,12 @@ updated: 2024-01-19T17:18:56+0100
   medium. The dissolution, transport and precipitation of minerals can alter the
   porous medium and modify its properties.
 
-* Flow Solvers
+* Solvers
+** The `darcy` solver
+   Computes the velocity of a single phase flow in a porous media.
 
-  The flow solver computes the velocity fields of each fluid phases.
-  It combines the momentum conservation equation
-  To do so it needs:
-  - the physical properties of the fluids charged with the 
-    dissolved minerals (density, viscosity), 
-  - the absolute permeability of the solid matrix,
-  - the source term for the continuity equations,
+* Tests
+** The `darcy` solver
+*** Simple one dimensional flow
+    See `tests/darcy_01/README.norg`.
 
-** Darcy
-
-   Single phase flow.
-
-   Mixes Darcy's law with the continuity equation to form a Laplace equation 
-   that is solved for pressure. Velocity is then computed using Darcy's law. 
-
-** DBS
-   
-   Multi-scale single phase flow.
-
-   Uses PIMPLE to solve the coupled momentum conservation and continuity
-   equations. 
-
-** IMPES
-
-   Multi-phase flow.
-
-   Each fluid obeys Darcy's law. A pressure equation is formed by summing the
-   continuity equations of all the fluid phases. It is solved for pressure, the
-   other pressures are computed using the models for the capillary pressure.
-   The saturations are then obtained using the continuity equations and finally
-   the velocity fields using Darcy's laws in each phase.
-
-* Geochemical model
-
-  The geochemistry model manages the chemical composition of the solid phase as
-  well as the concentration of dissolved mineral in the fluids. It solves the
-  transport of the dissolved species and the chemical reactions.
-
-  As the module that knows the exact composition of the solid and fluid phases,
-  it is in charge of providing the following properties.
-
-  It also provides the mass source term for the flow solver.
-
-** Porosity of the solid matrix
-
-    Dissolution, transport and precipitation of minerals might alter the porous
-    matrix and change its porosity.
-
-    Depends on: the composition of the solid.
-
-** Surface area of each solid mineral phase
-
-    Depends on: the solid mass fraction of the mineral.
-
-** Dispersion coefficient of each dissolved mineral in each fluid phase
-
-    Depends on: the porosity? Fluid composition?
-
-** Density and viscosity of each charged fluid phase
-
-    As these might depend on the fluid composition. The properties of the pure
-    fluids are obtained through OpenFOAM's thermo-physical package
-    (in the file `constant/physicalProperties`). 
-
-** Surface tension between fluid phases
-
-   ?
-
-* Other properties
-
-  Some other properties needed.
-
-** Absolute permeability
-
-   As a function of the porosity.
-
-** Relative permeabilities
-
-   As functions of the saturation (given by the flow solver).
-
-* The `constant` directory
-
-** Single phase
-
-   Must have the `physicalPropeties` file for the properties of the bulk (pure)
-   fluid. Then the `porousPRoperies` file to configure the geochemistry and
-   permeability models.
-
-** Multi-phase
-
-
-* Method of resolution
-
-  ~ Solve flow.
-  -- *Inputs*:
-  --- Fluid viscosities, from the geochemistry model.
-  --- Absolute permeability, from the absolute permeability model.
-  --- Mass source term, from the geochemistry model.
-  --- Gravity, from configuration.
-  --- Porosity (DBS), from the geochemistry model.
-  -- *Outputs*:
-  --- Velocity field
-  ~ Solve reactive transport for each species
-  -- *Inputs*:
-  --- Velocity field, from the flow solver.
-  --- Porosity, from the geochemistry model.
-  --- Dispersion tensor from the geochemistry model.
-  -- *Outputs*:
-  --- Mass source term.

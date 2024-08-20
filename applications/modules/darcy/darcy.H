@@ -103,6 +103,9 @@ public:
         //- Called at the start of the PIMPLE loop to move the mesh
         void moveMesh() override;
 
+        //- Corrections that follow mesh motion
+        void motionCorrector() override;
+
         //- Called at the start of the PIMPLE loop
         void prePredictor() override;
 
