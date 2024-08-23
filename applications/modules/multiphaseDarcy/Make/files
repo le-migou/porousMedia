@@ -1,3 +1,5 @@
 multiphaseDarcy.C
+multiphaseDarcyMixture/compressibleDarcyPhase/compressibleDarcyPhase.C
+multiphaseDarcyMixture/multiphaseDarcyMixture.C
 
 LIB=$(FOAM_USER_LIBBIN)/libmultiphaseDarcy

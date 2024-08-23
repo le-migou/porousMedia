@@ -60,14 +60,21 @@ Foam::IOobject Foam::multiphasePorousMedia::findModelDict
 
 Foam::multiphasePorousMedia::multiphasePorousMedia
 (
-    const fvMesh& mesh
+    const fvMesh& mesh,
+    compressibleMultiphaseVoFMixture& mixture,
+    PtrList<volScalarField> const& Ss
 )
 :
     IOdictionary(findModelDict(mesh, true)),
-    compressibleMultiphaseVoFMixture_(new compressibleMultiphaseVoFMixture(mesh)),
-    compressibleVoFphases_(compressibleMultiphaseVoFMixture_->phases()),
-    //geochemistryModel_(geochemistryModel::New(mesh, *this, fluidThermo_)),
-    absolutePermeabilityModel_(absolutePermeabilityModel::New(mesh, *this)),
+    mixture_(mixture),
+    phases_(mixture_.phases()),
+    // WARNING: these models might have dependencies between them so the order
+    // of their construction is relevant.
+    multiphaseGeochemistryModel_(multiphaseGeochemistryModel::New(mesh, this)),
+    reducedSaturationModel_(reducedSaturationModel::New(mesh, this)),
+    capillarityModel_(capillarityModel::New(mesh, this)),
+    absolutePermeabilityModel_(absolutePermeabilityModel::New(mesh, this)),
+    relativePermeabilityModel_(relativePermeabilityModel::New(mesh, this)),
     g_
     (
         IOobject(
@@ -77,21 +84,76 @@ Foam::multiphasePorousMedia::multiphasePorousMedia
             IOobject::MUST_READ,
             IOobject::NO_WRITE
         )
+    ),
+    Ss_(Ss),
+    Lf_
+    (
+        IOobject(
+            "Lf",
+            mesh.time().name(),
+            mesh,
+            IOobject::NO_READ,
+            IOobject::NO_WRITE
+        ),
+        mesh,
+        0.
+    ),
+    Mf_
+    (
+        IOobject(
+            "Mf",
+            mesh.time().name(),
+            mesh,
+            IOobject::NO_READ,
+            IOobject::NO_WRITE
+        ),
+        mesh,
+        0.
     )
 {
+    forAll(phases_, i)
+    {
+        Lfs_.append (
+            new surfaceScalarField 
+            (
+                IOobject
+                (
+                    "Lf." + phases_[i].name (),
+                    mesh.time().name(),
+                    mesh,
+                    IOobject::NO_READ,
+                    IOobject::NO_WRITE
+                ),
+                mesh,
+                0.
+            )
+        );
+        Mfs_.append (
+            new surfaceScalarField 
+            (
+                IOobject
+                (
+                    "Mf." + phases_[i].name (),
+                    mesh.time().name(),
+                    mesh,
+                    IOobject::NO_READ,
+                    IOobject::NO_WRITE
+                ),
+                mesh,
+                0.
+            )
+        );
+    }
     // Ensure name of IOdictionary is typeName
     //rename(IOobject::groupName(multiphasePorousMedia::typeName, group));
 }
 
-
+//- ?
+void Foam::multiphasePorousMedia::correct()
+{
+    
+}
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
-/*
-bool Foam::multiphasePorousMedia::read()
-{
-    return regIOobject::read();
-}
-*/
-
 
 // ************************************************************************* //

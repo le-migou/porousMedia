@@ -55,23 +55,29 @@ class multiphaseDarcy
     public solver
 {
     // Private data
-        //
+
+        //- The compressible two-phase mixture
+        autoPtr <compressibleMultiphaseVoFMixture> mixture_;
+
+        //- Reference to the phases
+        UPtrListDictionary<compressibleVoFphase>& phases_;
+    
         //- The porous medium properties and models
         multiphasePorousMedia multiphasePorousMedia_;
+        const volScalarField& eps_;
 
-        //- The pressure is held by the porousMedia class, because it belongs
-        // to OpenFOAM's fluidThermo class.
-        //volScalarField& p_;
 
-        //- Porous properties
-        volTensorField const& K_;
-        volScalarField const& mu_;
-        volScalarField const& rho_;
-        uniformDimensionedVectorField const& g_;
-        volScalarField const& sourceTerm_;
+        PtrList<volScalarField> Ss_;
+        PtrList<volVectorField> Us_;
+        PtrList<surfaceScalarField> phis_;
 
-        //- The velocity field
+        volScalarField sourceTerm_;
         volVectorField U_;
+
+        scalar dSmax_;
+        scalar maxDeltaT_;
+        scalar maxCo_;
+
 public:
 
     // Public Data
@@ -102,6 +108,9 @@ public:
 
         //- Called at the start of the PIMPLE loop to move the mesh
         void moveMesh() override;
+
+        //- Corrections that follow mesh motion
+        void motionCorrector() override;
 
         //- Called at the start of the PIMPLE loop
         void prePredictor() override;

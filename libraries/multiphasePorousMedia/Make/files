@@ -1,3 +1,15 @@
 multiphasePorousMedia.C
 
+multiphaseGeochemistry/multiphaseGeochemistryModel.C
+multiphaseGeochemistry/multiphaseGeochemistryNone/multiphaseGeochemistryNone.C
+
+capillarity/capillarityModel.C
+capillarity/capillarityBrooksAndCorey/capillarityBrooksAndCorey.C
+
+reducedSaturation/reducedSaturationModel.C
+reducedSaturation/reducedSaturationMinMax/reducedSaturationMinMax.C
+
+relativePermeability/relativePermeabilityModel.C
+relativePermeability/relativePermeabilityBrooksCorey/relativePermeabilityBrooksCorey.C
+
 LIB=$(FOAM_USER_LIBBIN)/libmultiphasePorousMedia
