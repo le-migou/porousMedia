@@ -22,22 +22,26 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    isto::foam::solvers::darcy
+    Foam::solvers::incompressibleDarcy
 
 Description
-    Solves the Darcy law of flow through a porous medium.
+    Solver module for the incompressible flow in porous media, based on the 
+    incompressibleFluid solver.
 
 SourceFiles
-    darcy.C
+    incompressibleDarcy.C
+
+See also
+    Foam::solvers::fluidSolver
+    Foam::solvers::isothermalFluid
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef darcy_H
-#define darcy_H
+#ifndef incompressibleDarcy_H
+#define incompressibleDarcy_H
 
-#include "solver.H"
+#include "incompressibleFluid.H"
 #include "porousMedia.H"
-#include "volFieldsFwd.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -47,91 +51,54 @@ namespace solvers
 {
 
 /*---------------------------------------------------------------------------*\
-                          Class darcy Declaration
+                          Class incompressibleDarcy Declaration
 \*---------------------------------------------------------------------------*/
 
-class darcy
+class incompressibleDarcy
 :
-    public solver
+    public incompressibleFluid
 {
+
     // Private data
-        //
+
         //- The porous medium properties and models
         porousMedia porousMedia_;
 
-        //- The pressure is held by the porousMedia class, because it belongs
-        // to OpenFOAM's fluidThermo class.
-        volScalarField& p_;
+        //- The inverse of the permeability tensor
+        // FIXME: this is scalar ATM, I don't have a solution for adding an
+        // implicit source which is a tensor.
+        volScalarField nuInvK_;
 
-        //- Porous properties
-        volTensorField const& K_;
-        volScalarField const& mu_;
-        volScalarField const& rho_;
-        uniformDimensionedVectorField const& g_;
-        volScalarField const& sourceTerm_;
-
-        //- The velocity field
-        volVectorField U_;
 public:
 
-    // Public Data
-
     //- Runtime type information
-    TypeName("darcy");
+    TypeName("incompressibleDarcy");
 
 
     // Constructors
 
         //- Construct from region mesh
-        darcy(fvMesh& mesh);
+        incompressibleDarcy(fvMesh& mesh);
 
         //- Disallow default bitwise copy construction
-        darcy(const darcy&) = delete;
+        incompressibleDarcy(const incompressibleDarcy&) = delete;
 
 
     //- Destructor
-    virtual ~darcy();
+    virtual ~incompressibleDarcy();
+
 
     // Member Functions
-
-        //- Return the current maximum time-step for stable solution
-        scalar maxDeltaT() const override;
-
-        //- Called at the start of the time-step, before the PIMPLE loop
-        void preSolve() override;
-
-        //- Called at the start of the PIMPLE loop to move the mesh
-        void moveMesh() override;
-
-        //- Corrections that follow mesh motion
-        void motionCorrector() override;
-
-        //- Called at the start of the PIMPLE loop
-        void prePredictor() override;
 
         //- Construct and optionally solve the momentum equation
         void momentumPredictor() override;
 
-        //- Construct and solve the thermophysical property equations,
-        //  convert to temperature
-        //  and update thermophysical and transport properties
-        void thermophysicalPredictor() override;
-
-        //- Construct and solve the pressure equation in the PISO loop
-        void pressureCorrector() override;
-
-        //- Correct the momentum and thermophysical transport modelling
-        void postCorrector() override;
-
-        //- Called after the PIMPLE loop at the end of the time-step
-        void postSolve() override;
-
-
     // Member Operators
 
         //- Disallow default bitwise assignment
-        void operator=(const darcy&) = delete;
+        void operator=(const incompressibleDarcy&) = delete;
 };
+
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

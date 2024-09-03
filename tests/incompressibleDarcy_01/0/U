@@ -8,15 +8,15 @@
 FoamFile
 {
     format      ascii;
-    class       volScalarField;
+    class       volVectorField;
     location    "0";
-    object      p;
+    object      U;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions      [1 -1 -2 0 0 0 0];
+dimensions      [0 1 -1 0 0 0 0];
 
-internalField   uniform 1;
+internalField   uniform (0 0 0);
 
 boundaryField
 {
@@ -34,13 +34,11 @@ boundaryField
     }
     right
     {
-        type            fixedValue;
-        value           uniform 0;
+        type            zeroGradient;
     }
     left
     {
-        type            fixedValue;
-		value		    uniform 100;
+        type            zeroGradient;
     }
 }
 

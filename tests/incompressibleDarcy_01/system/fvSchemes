@@ -10,40 +10,41 @@ FoamFile
     format      ascii;
     class       dictionary;
     location    "system";
-    object      controlDict;
+    object      fvSchemes;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-application       foamRun;
+divSchemes
+{}
 
-solver            darcy;
+gradSchemes
+{
+    default Gauss linear;
+}
 
-startFrom         latestTime;
+laplacianSchemes
+{
+    default Gauss linear orthogonal;
+}
 
-startTime         0;
+interpolationSchemes
+{
+    default linear;
+}
 
-stopAt            endTime;
+snGradSchemes
+{
+    default orthogonal;
+}
 
-endTime           1;
+ddtSchemes
+{
+    default steadyState;
+}
 
-deltaT            1;
-
-writeControl      runTime;
-
-writeInterval     1;
-
-purgeWrite        0;
-
-writeFormat       ascii;
-
-writePrecision    6;
-
-writeCompression  off;
-
-timeFormat        general;
-
-timePrecision     6;
-
-runTimeModifiable true;
+fluxRequired
+{
+    p;
+}
 
 // ************************************************************************* //

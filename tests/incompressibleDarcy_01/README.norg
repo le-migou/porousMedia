@@ -13,7 +13,7 @@
     specified in `0/p`,
   - $L$ is the domain length, specified in `system/blockMesh`.
 
-  If ran without modification, the velocity should be -1e-4 m/s.
+  If ran without modification, the velocity should be -1e-5 m/s.
 
   Run the test with `foamCleanCase && foamRunTutorials` and check the value of
   the velocity in `1/U`. 
