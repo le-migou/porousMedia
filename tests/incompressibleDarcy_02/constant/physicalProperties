@@ -8,40 +8,50 @@
 FoamFile
 {
     format      ascii;
-    class       volScalarField;
-    location    "0";
-    object      p;
+    class       dictionary;
+    location    "constant";
+    object      physicalProperties;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions      [0 2 -2 0 0 0 0];
-
-internalField   uniform 0;
-
-boundaryField
+thermoType
 {
-    top
+    type            heRhoThermo;
+    mixture         pureMixture;
+    transport       const;
+    thermo          hConst;
+    equationOfState rhoConst;
+    specie          specie;
+    energy          sensibleEnthalpy;
+}
+
+mixture
+{
+    specie
     {
-        type            empty;
+        molWeight       18.01;
     }
-    bottom
+    thermodynamics
     {
-        type            empty;
+        Cp              4.162279e+3;
+        Hf              0;
     }
-    frontAndBack
+    equationOfState
     {
-        type            empty;
+        rho             1000;
     }
-    right
+    transport
     {
-        type            fixedValue;
-        value           uniform 0.1;
-    }
-    left
-    {
-        type            fixedValue;
-        value           uniform 0;
+        mu              1e-3;
+        Pr              0.289;
     }
 }
+
+
+viscosityModel  constant;
+
+nu              1e-6;
+
+rho             1000;
 
 // ************************************************************************* //

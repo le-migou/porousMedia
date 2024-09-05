@@ -10,11 +10,11 @@ FoamFile
     format      ascii;
     class       volScalarField;
     location    "0";
-    object      p;
+    object      T;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions      [0 2 -2 0 0 0 0];
+dimensions      [0 0 0 1 0 0 0];
 
 internalField   uniform 0;
 
@@ -35,12 +35,12 @@ boundaryField
     right
     {
         type            fixedValue;
-        value           uniform 0.1;
+        value           uniform 0;
     }
     left
     {
         type            fixedValue;
-        value           uniform 0;
+		value		    uniform 0;
     }
 }
 

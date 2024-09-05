@@ -8,40 +8,28 @@
 FoamFile
 {
     format      ascii;
-    class       volScalarField;
-    location    "0";
-    object      p;
+    class       dictionary;
+    location    "constant";
+    object      porousProperties;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions      [0 2 -2 0 0 0 0];
+absolutePermeabilityModel absolutePermeabilityConst;
 
-internalField   uniform 0;
-
-boundaryField
+absolutePermeabilityConstCoeffs
 {
-    top
-    {
-        type            empty;
-    }
-    bottom
-    {
-        type            empty;
-    }
-    frontAndBack
-    {
-        type            empty;
-    }
-    right
-    {
-        type            fixedValue;
-        value           uniform 0.1;
-    }
-    left
-    {
-        type            fixedValue;
-        value           uniform 0;
-    }
+    K0 (
+        1e-11 0     0
+        0     1e-11 0
+        0     0     1e-11
+    );
+}
+
+geochemistryModel geochemistryNone;
+
+geochemistryNoneCoeffs
+{
+    eps0 0.2;
 }
 
 // ************************************************************************* //

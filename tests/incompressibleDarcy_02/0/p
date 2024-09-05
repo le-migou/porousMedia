@@ -35,12 +35,11 @@ boundaryField
     right
     {
         type            fixedValue;
-        value           uniform 0.1;
+        value           uniform 0;
     }
     left
     {
-        type            fixedValue;
-        value           uniform 0;
+        type            fixedFluxPressure;
     }
 }
 

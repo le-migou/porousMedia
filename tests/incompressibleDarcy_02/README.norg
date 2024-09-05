@@ -1,0 +1,13 @@
+* Test case for the `darcy` solver: flow in a porous medium
+
+  - 1D flow with prescribed velocity.
+  - Homogeneous permeability.
+  - No geochemistry.
+
+  Should yield a uniform velocity field with a value equal to the value
+  prescribed at the inlet.
+
+  If ran without modification, the velocity should be 1e-5 m/s.
+
+  Run the test with `foamCleanCase && foamRunTutorials` and check the value of
+  the velocity in `1/U`. 

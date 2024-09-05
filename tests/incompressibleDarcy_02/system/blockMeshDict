@@ -8,40 +8,78 @@
 FoamFile
 {
     format      ascii;
-    class       volScalarField;
-    location    "0";
-    object      p;
+    class       dictionary;
+    location    "system";
+    object      blockMeshDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions      [0 2 -2 0 0 0 0];
+convertToMeters 0.1;
 
-internalField   uniform 0;
+vertices
+(
+    (0 0   0)
+    (1 0   0)
+    (1 0.1 0)
+    (0 0.1 0)
+    (0 0   0.1)
+    (1 0   0.1)
+    (1 0.1 0.1)
+    (0 0.1 0.1)
+);
 
-boundaryField
-{
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) (20 1 1) simpleGrading (1 1 1)
+);
+
+boundary
+(
     top
     {
-        type            empty;
+        type empty;
+        faces
+        (
+            (2 3 7 6)
+        );
     }
+
     bottom
     {
-        type            empty;
+        type empty;
+        faces
+        (
+            (0 1 5 4)
+        );
     }
+
     frontAndBack
     {
-        type            empty;
+        type empty;
+        faces
+        (
+            (4 5 6 7)
+            (3 2 1 0)
+        );
     }
+
     right
     {
-        type            fixedValue;
-        value           uniform 0.1;
+        type patch;
+        faces
+        (
+            (6 5 1 2)
+        );
     }
+
     left
     {
-        type            fixedValue;
-        value           uniform 0;
+        type patch;
+        faces
+        (
+            (4 7 3 0)
+        );
     }
-}
+);
 
 // ************************************************************************* //
