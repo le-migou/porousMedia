@@ -69,6 +69,12 @@ class incompressibleDarcy
         // implicit source which is a tensor.
         volScalarField nuInvK_;
 
+protected:
+
+        //- Construct the pressure equation
+        //  and correct the pressure and velocity
+        void correctPressure() override;
+
 public:
 
     //- Runtime type information

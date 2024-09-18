@@ -35,6 +35,10 @@ boundaryField
     right
     {
         type            zeroGradient;
+        // Or, prescribe the velocity at both the inlet and outlet:
+        // (The pressure BC must be changed accordingly)
+        // type            fixedValue;
+        // value           uniform (1e-5 0 0);
     }
     left
     {

@@ -36,6 +36,9 @@ boundaryField
     {
         type            fixedValue;
         value           uniform 0;
+        // Or, if the velocity is prescribed at both the inlet and outlet:
+        // (In this case a reference pressure must be set in system/fvSolution)
+        // type            fixedFluxPressure;
     }
     left
     {

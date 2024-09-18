@@ -6,3 +6,8 @@ wclean "$1" libraries/porousMedia
 wclean "$1" applications/modules/incompressibleDarcy
 wclean "$1" libraries/multiphasePorousMedia
 wclean "$1" applications/modules/multiphaseDarcy
+
+for i in tests/*;
+do
+    foamCleanCase -case "$i"
+done
