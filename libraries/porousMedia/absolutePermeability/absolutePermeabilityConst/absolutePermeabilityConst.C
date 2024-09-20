@@ -63,11 +63,12 @@ absolutePermeabilityConst::absolutePermeabilityConst(
           "K",
           mesh.time().name(),
           mesh,
-          IOobject::NO_READ,
-          IOobject::NO_WRITE
+          IOobject::READ_IF_PRESENT,
+          IOobject::AUTO_WRITE
       ),
       mesh,
-      K0_
+      K0_,
+      "zeroGradient"
     )
 {}
 
