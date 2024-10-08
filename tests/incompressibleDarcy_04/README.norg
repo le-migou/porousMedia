@@ -1,4 +1,4 @@
-* Test case for the `darcy` solver: flow in a porous medium
+* Test case for the `incompressibleDarcy` solver: incompressible flow in a porous medium
 
   - 1D flow under a pressure gradient.
   - Heterogeneous permeability.
