@@ -1,0 +1,17 @@
+* Test case for the `darcy` solver: flow in a porous medium
+
+  - 1D flow with prescribed velocity.
+  - Heterogeneous permeability.
+  - No geochemistry.
+
+  The permeability field in `0/K.orig` is modified by the `setFields` command,
+  configured in the `system/setFieldsDict` file.
+
+  If ran without modification, the velocity should be 1e-5 m/s.
+
+  Run the test with `foamCleanCase && foamRunTutorials` and check the value of
+  the velocity in `1/U`. The pressure field along the 1D domain can be
+  plotted with:
+  @code sh
+  gnuplot -p -e 'plot "postProcessing/graphUniform/1/line.xy" w l t "Pressure"'
+  @end

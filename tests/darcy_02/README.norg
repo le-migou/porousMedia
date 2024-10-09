@@ -1,0 +1,19 @@
+* Test case for the `darcy` solver: flow in a porous medium
+
+  - 1D flow under a pressure gradient.
+  - Homogeneous permeability.
+  - No geochemistry.
+
+  Should yield a uniform velocity field with a value equal to 
+  $-\frac{K}{\mu} \Delta P / L$,
+  where
+  - $K$ is the permeability, specified in the file `constant/porousProperties`,
+  - $mu$ is the viscosity, specified in the file `constant/physicalProperties`,
+  - $\delta P$ is the pressure difference between the inlet and the outlet,
+    specified in `0/p`,
+  - $L$ is the domain length, specified in `system/blockMesh`.
+
+  If ran without modification, the velocity should be 1e-5 m/s.
+
+  Run the test with `foamCleanCase && foamRunTutorials` and check the value of
+  the velocity in `1/U`. 
