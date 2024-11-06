@@ -24,6 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "absolutePermeabilityModel.H"
+#include "porousMedia.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -42,8 +43,9 @@ namespace Foam
 Foam::absolutePermeabilityModel::absolutePermeabilityModel
 (
     const fvMesh& mesh,
-    const dictionary& dict
+    porousMedia& parent
 ) 
+    : parent_(parent)
 {}
 
 
@@ -53,11 +55,11 @@ Foam::autoPtr<Foam::absolutePermeabilityModel>
 Foam::absolutePermeabilityModel::New
 (
     const fvMesh& mesh,
-    const dictionary& dict
+    porousMedia& parent
 )
 {
 
-    const word modelType = dict.lookup("absolutePermeabilityModel");
+    const word modelType = parent.dict().lookup("absolutePermeabilityModel");
 
     Info<< "Selecting absolute permeability model " << modelType << endl;
 
@@ -78,7 +80,7 @@ Foam::absolutePermeabilityModel::New
     (
         cstrIter()(
             mesh, 
-            dict 
+            parent
         )
     );
 }

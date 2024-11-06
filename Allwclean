@@ -4,9 +4,9 @@ cd "${0%/*}" || exit 1    # Run from this directory
 wclean "$1" common
 wclean "$1" libraries/porousMedia
 wclean "$1" applications/modules/incompressibleDarcy
-wclean "$1" libraries/multiphasePorousMedia
+#wclean "$1" libraries/multiphasePorousMedia
 wclean "$1" applications/modules/darcy
-wclean "$1" applications/modules/multiphaseDarcy
+#wclean "$1" applications/modules/multiphaseDarcy
 
 for i in tests/*;
 do

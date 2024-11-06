@@ -78,8 +78,7 @@ public:
         //- Construct from components
         geochemistryNone(
             fvMesh const& mesh,
-            dictionary const& dict,
-            fluidThermo const& fluidThermo
+            porousMedia& parent
         );
 
         //- Disallow default bitwise copy construction

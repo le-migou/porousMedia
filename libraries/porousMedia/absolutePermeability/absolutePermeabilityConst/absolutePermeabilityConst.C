@@ -26,6 +26,7 @@ License
 #include "volFields.H"
 #include "absolutePermeabilityConst.H"
 #include "addToRunTimeSelectionTable.H"
+#include "porousMedia.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -47,14 +48,14 @@ namespace absolutePermeabilityModels
 
 absolutePermeabilityConst::absolutePermeabilityConst(
     const fvMesh& mesh,
-    const dictionary& dict
+    porousMedia& parent
 )
 : 
     absolutePermeabilityModel(
         mesh,
-        dict
+        parent
     ),
-    coeffDict_(dict.subDict(type() + "Coeffs")), 
+    coeffDict_(parent.dict().subDict(type() + "Coeffs")), 
     K0_("K0", dimLength * dimLength, coeffDict_), 
     K_
     (

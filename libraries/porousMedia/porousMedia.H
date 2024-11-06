@@ -40,6 +40,7 @@ SourceFiles
 #include "geochemistryModel.H"
 #include "absolutePermeabilityModel.H"
 #include "uniformDimensionedFields.H"
+#include "speciesTable.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -54,10 +55,11 @@ class fvMesh;
 \*---------------------------------------------------------------------------*/
 
 class porousMedia
-:
-    IOdictionary
 {
     // Private member data
+
+        // Our link to OpenFOAM
+        IOdictionary dict_;
 
         // The thermo-physical package for the pure fluid.
         // It is here because it is it who owns the pressure fields (for some
@@ -70,8 +72,13 @@ class porousMedia
         // Model for the absolute permeability
         autoPtr <absolutePermeabilityModel> absolutePermeabilityModel_;
 
-        //- Gravitational acceleration
+        // Gravitational acceleration
         uniformDimensionedVectorField g_;
+
+        // Transported solutes
+        speciesTable solutes_;
+        // Transported solutes concentrations
+        PtrList <volScalarField> soluteConcentrations_;
 
 
 public:
@@ -97,16 +104,14 @@ public:
 
     // Member Functions
 
-        static IOobject findModelDict
-        (
-            const objectRegistry& obr,
-            bool registerObject = false
-        );
-
-        /*
-        // - Read porousMedia dictionary
-        virtual bool read();
-        */
+        IOdictionary& dict()
+        {
+            return dict_;
+        }
+        fluidThermo const& thermo () const
+        {
+            return *fluidThermo_;
+        }
 
         //- Pressure
         volScalarField& p()

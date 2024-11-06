@@ -15,5 +15,5 @@ wmake "$targetType" common
 wmake "$targetType" libraries/porousMedia
 wmake "$targetType" applications/modules/incompressibleDarcy
 wmake "$targetType" applications/modules/darcy
-wmake "$targetType" libraries/multiphasePorousMedia
-wmake "$targetType" applications/modules/multiphaseDarcy
+#wmake "$targetType" libraries/multiphasePorousMedia
+#wmake "$targetType" applications/modules/multiphaseDarcy

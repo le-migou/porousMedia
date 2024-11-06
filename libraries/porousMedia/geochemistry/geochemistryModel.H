@@ -36,6 +36,7 @@ SourceFiles
 #ifndef geochemistryModel_H
 #define geochemistryModel_H
 
+#include "nonCopyable.H"
 #include "fvMesh.H"
 #include "volFieldsFwd.H"
 #include "runTimeSelectionTables.H"
@@ -48,11 +49,14 @@ SourceFiles
 namespace Foam
 {
 
+class porousMedia;
+
 /*---------------------------------------------------------------------------*\
                           Class geochemistryModel Declaration
 \*---------------------------------------------------------------------------*/
 
 class geochemistryModel
+    : public nonCopyable
 {
 protected:
 
@@ -83,13 +87,11 @@ public:
             dictionary,
             (
                 fvMesh const& mesh, 
-                dictionary const& dict,
-                fluidThermo const& fluidThermo
+                porousMedia& parent
             ),
             (
                 mesh, 
-                dict,
-                fluidThermo
+                parent
             )
         );
 
@@ -99,13 +101,8 @@ public:
         //- Construct from components
         geochemistryModel(
             fvMesh const& mesh,
-            dictionary const& dict,
-            fluidThermo const& fluidThermo
+            porousMedia& parent
         );
-
-        //- Disallow default bitwise copy construction
-        geochemistryModel(const geochemistryModel&) = delete;
-
 
     // Selectors
 
@@ -113,8 +110,7 @@ public:
         static autoPtr<geochemistryModel> New
         (
             fvMesh const& mesh,
-            dictionary const& dict,
-            fluidThermo const& fluidThermo
+            porousMedia& parent
         );
 
 

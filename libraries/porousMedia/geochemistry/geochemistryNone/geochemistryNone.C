@@ -25,6 +25,7 @@ License
 
 #include "geochemistryNone.H"
 #include "addToRunTimeSelectionTable.H"
+#include "porousMedia.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -46,16 +47,14 @@ namespace geochemistryModels
 
 geochemistryNone::geochemistryNone(
     fvMesh const& mesh,
-    dictionary const& dict,
-    fluidThermo const& fluidThermo
+    porousMedia& parent
 )
 : 
     geochemistryModel(
         mesh, 
-        dict,
-        fluidThermo
+        parent
     ), 
-    coeffDict_(dict.subDict(type() + "Coeffs")), 
+    coeffDict_(parent.dict().subDict(type() + "Coeffs")), 
     eps0_("eps0", dimless, coeffDict_), 
     eps_
     (

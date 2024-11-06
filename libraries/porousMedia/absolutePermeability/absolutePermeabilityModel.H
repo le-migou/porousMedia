@@ -12,9 +12,13 @@
 namespace Foam
 {
 
+class porousMedia;
+
 class absolutePermeabilityModel
     : public nonCopyable
 {
+    const porousMedia& parent_;
+
 public:
     TypeName("absolutePermeability");
 
@@ -25,17 +29,17 @@ public:
         dictionary,
         (
             const fvMesh& mesh,
-            const dictionary& dict
+            porousMedia& parent
         ),
         (
             mesh, 
-            dict
+            parent
         )
     );
 
     absolutePermeabilityModel(
         const fvMesh& mesh, 
-        const dictionary& dict
+        porousMedia& parent
     );
 
     // Selectors
@@ -44,8 +48,7 @@ public:
         static autoPtr<absolutePermeabilityModel> New
         (
             const fvMesh& mesh,
-            const dictionary& dict
-            
+            porousMedia& parent
         );
 
 

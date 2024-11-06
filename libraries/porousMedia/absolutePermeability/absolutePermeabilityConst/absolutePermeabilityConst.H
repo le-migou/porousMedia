@@ -78,12 +78,8 @@ public:
         //- Construct from components
         absolutePermeabilityConst(
             const fvMesh& mesh,
-            const dictionary& dict
+            porousMedia& parent
         );
-
-        //- Disallow default bitwise copy construction
-        absolutePermeabilityConst(const absolutePermeabilityConst&) = delete;
-
 
     //- Destructor
     virtual ~absolutePermeabilityConst()

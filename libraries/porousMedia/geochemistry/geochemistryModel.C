@@ -24,6 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "geochemistryModel.H"
+#include "porousMedia.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -42,11 +43,10 @@ namespace Foam
 Foam::geochemistryModel::geochemistryModel
 (
     fvMesh const& mesh,
-    dictionary const& dict,
-    fluidThermo const& fluidThermo
+    porousMedia& parent
 ) 
 :
-    fluidThermo_(fluidThermo)
+    fluidThermo_(parent.thermo ())
 {}
 
 
@@ -56,11 +56,10 @@ Foam::autoPtr<Foam::geochemistryModel>
 Foam::geochemistryModel::New
 (
     fvMesh const& mesh,
-    dictionary const& dict,
-    fluidThermo const& fluidThermo
+    porousMedia& parent
 )
 {
-    const word modelType = dict.lookup("geochemistryModel");
+    const word modelType = parent.dict().lookup("geochemistryModel");
 
     Info<< "Selecting absolute permeability model " << modelType << endl;
 
@@ -81,8 +80,7 @@ Foam::geochemistryModel::New
     (
         cstrIter()(
             mesh,
-            dict,
-            fluidThermo
+            parent
         )
     );
 }

@@ -33,29 +33,6 @@ namespace Foam
     defineTypeNameAndDebug(porousMedia, 0);
 }
 
-
-// * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * //
-
-Foam::IOobject Foam::porousMedia::findModelDict
-(
-    const objectRegistry& obr,
-    bool registerObject
-)
-{
-    typeIOobject<IOdictionary> porousMediaIO
-    (
-        "porousProperties",
-        obr.time().constant(),
-        obr,
-        IOobject::MUST_READ_IF_MODIFIED,
-        IOobject::NO_WRITE,
-        registerObject
-    );
-
-    return porousMediaIO;
-}
-
-
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 Foam::porousMedia::porousMedia
@@ -63,23 +40,48 @@ Foam::porousMedia::porousMedia
     const fvMesh& mesh
 )
 :
-    IOdictionary(findModelDict(mesh, true)),
+    dict_(IOobject(
+        "porousProperties",
+        mesh.time().constant(),
+        mesh,
+        IOobject::MUST_READ_IF_MODIFIED,
+        IOobject::NO_WRITE,
+        true
+    )),
     fluidThermo_(fluidThermo::New(mesh)),
-    geochemistryModel_(geochemistryModel::New(mesh, *this, fluidThermo_)),
+    geochemistryModel_(geochemistryModel::New(mesh, *this)),
     absolutePermeabilityModel_(absolutePermeabilityModel::New(mesh, *this)),
     g_
     (
         IOobject(
             "g",
-            mesh.time().constant(),
+            dict_.time().constant(),
             mesh,
             IOobject::MUST_READ,
             IOobject::NO_WRITE
         )
-    )
+    ),
+    solutes_(dict_.lookupOrDefault("solutes", speciesTable()))
 {
-    // Ensure name of IOdictionary is typeName
-    //rename(IOobject::groupName(porousMedia::typeName, group));
+    forAll(solutes_, i)
+    {
+        Info<< solutes_[i] << endl;
+        soluteConcentrations_.append
+        (
+            new volScalarField
+            (
+                IOobject
+                (
+                    "C." + solutes_[i],
+                    dict_.time().name(),
+                    mesh,
+                    IOobject::MUST_READ,
+                    IOobject::AUTO_WRITE
+                ),
+                mesh
+            )
+        );
+    }
 }
 
 
