@@ -1,5 +1,0 @@
-SOURCE += momentumPredictor.C
-SOURCE += correctPressure.C
-SOURCE += darcy.C
-
-LIB = $(FOAM_USER_LIBBIN)/libdarcy

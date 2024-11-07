@@ -85,6 +85,11 @@ class darcy
         //  and correct the pressure and velocity
         void correctBuoyantPressure();
 
+        void updatePorousMedia ()
+        {
+            porousMedia_.update ();
+        }
+
 protected:
 
         //- Construct the pressure equation

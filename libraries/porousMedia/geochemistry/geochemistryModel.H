@@ -41,7 +41,6 @@ SourceFiles
 #include "volFieldsFwd.H"
 #include "runTimeSelectionTables.H"
 #include "hashedWordList.H"
-#include "mineral.H"
 #include "fluidThermo.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -58,19 +57,12 @@ class porousMedia;
 class geochemistryModel
     : public nonCopyable
 {
+    porousMedia& parent_;
+
 protected:
 
         //- Thermodynamics of the pure fluid
         fluidThermo const& fluidThermo_;
-
-        //- List of mineral names
-        hashedWordList mineral_names_;
-
-        //- Minerals
-        PtrList<mineral> minerals_;
-
-        //- solid mass fraction of each mineral
-        PtrList<volScalarField> Ys_;
 
 public:
 
@@ -120,10 +112,10 @@ public:
 
 
     // Member Functions
-        /*
-        //- Read model coefficients if they have changed
-        virtual bool read() = 0;
-        */
+        porousMedia& parent ()
+        {
+            return parent_;
+        }
 
         //- Return the porosity
         virtual volScalarField const& eps() const = 0;
@@ -137,10 +129,7 @@ public:
         //- Source term for the flow solver
         virtual volScalarField const& massSourceTerm() const = 0;
 
-        /*
-        //- Solve the turbulence equations and correct the turbulence viscosity
-        virtual void correct() = 0;
-        */
+        virtual void update() = 0;
 
 
     // Member Operators

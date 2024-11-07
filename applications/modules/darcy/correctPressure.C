@@ -265,6 +265,8 @@ void Foam::solvers::darcy::correctPressure()
     {
         dpdt = fvc::ddt(p);
     }
+
+    updatePorousMedia();
 }
 
 

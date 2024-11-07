@@ -108,9 +108,27 @@ public:
         {
             return dict_;
         }
-        fluidThermo const& thermo () const
+        fluidThermo const& thermo() const
         {
             return *fluidThermo_;
+        }
+        speciesTable const& solutes() const
+        {
+            return solutes_;
+        }
+        PtrList <volScalarField>& soluteConcentrations() 
+        {
+            return soluteConcentrations_;
+        }
+        volScalarField& soluteConcentration(label soluteIndex) 
+        {
+            return soluteConcentrations_[soluteIndex];
+        }
+
+        // Update the properties after a new velocity field has been computed
+        void update()
+        {
+            geochemistryModel_->update();
         }
 
         //- Pressure

@@ -46,6 +46,7 @@ Foam::geochemistryModel::geochemistryModel
     porousMedia& parent
 ) 
 :
+    parent_(parent),
     fluidThermo_(parent.thermo ())
 {}
 

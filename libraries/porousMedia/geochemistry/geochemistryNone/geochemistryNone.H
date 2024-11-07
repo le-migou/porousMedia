@@ -104,6 +104,9 @@ public:
         //- Source term for the flow solver
         volScalarField const& massSourceTerm() const override;
 
+        void update() override
+        {}
+
 
     // Member Operators
 

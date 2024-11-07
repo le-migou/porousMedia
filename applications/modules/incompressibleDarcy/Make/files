@@ -1,5 +1,0 @@
-momentumPredictor.C
-correctPressure.C
-incompressibleDarcy.C
-
-LIB = $(FOAM_USER_LIBBIN)/libincompressibleDarcy
