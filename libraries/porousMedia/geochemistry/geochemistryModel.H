@@ -1,41 +1,4 @@
-/*---------------------------------------------------------------------------*\
-  =========                 |
-  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
-   \\    /   O peration     | Website:  https://openfoam.org
-    \\  /    A nd           | Copyright (C) 2013-2023 OpenFOAM Foundation
-     \\/     M anipulation  |
--------------------------------------------------------------------------------
-License
-    This file is part of OpenFOAM.
-
-    OpenFOAM is free software: you can redistribute it and/or modify it
-    under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
-    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-    for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
-
-Class
-    Foam::geochemistryModel
-
-Description
-    Base class for modelling the dissoution, transport and precipitation of 
-    dissolved minerals in porous media.
-
-SourceFiles
-    geochemistryModel.C
-
-\*---------------------------------------------------------------------------*/
-
-#ifndef geochemistryModel_H
-#define geochemistryModel_H
-
+#pragma once
 #include "nonCopyable.H"
 #include "fvMesh.H"
 #include "volFieldsFwd.H"
@@ -43,114 +6,66 @@ SourceFiles
 #include "hashedWordList.H"
 #include "fluidThermo.H"
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-namespace Foam
+    namespace 
+Foam
 {
+    class porousMedia;
 
-class porousMedia;
-
-/*---------------------------------------------------------------------------*\
-                          Class geochemistryModel Declaration
-\*---------------------------------------------------------------------------*/
-
-class geochemistryModel
+    class 
+geochemistryModel
     : public nonCopyable
 {
-    porousMedia& parent_;
+        porousMedia& 
+    parent_;
 
 protected:
-
-        //- Thermodynamics of the pure fluid
-        fluidThermo const& fluidThermo_;
+        fluidThermo const& 
+    fluidThermo_;
 
 public:
+    TypeName ("geochemistry");
 
-    //- Runtime type information
-    TypeName("geochemistry");
+    declareRunTimeSelectionTable (
+          autoPtr
+        , geochemistryModel
+        , dictionary
+        , (fvMesh const& mesh, porousMedia& parent)
+        , (mesh, parent)
+    );
+        static autoPtr<geochemistryModel> 
+    New (fvMesh const& mesh, porousMedia& parent);
 
+    geochemistryModel (fvMesh const& mesh, porousMedia& parent);
 
-    // Declare run-time constructor selection table
-
-        declareRunTimeSelectionTable
-        (
-            autoPtr,
-            geochemistryModel,
-            dictionary,
-            (
-                fvMesh const& mesh, 
-                porousMedia& parent
-            ),
-            (
-                mesh, 
-                parent
-            )
-        );
-
-
-    // Constructors
-
-        //- Construct from components
-        geochemistryModel(
-            fvMesh const& mesh,
-            porousMedia& parent
-        );
-
-    // Selectors
-
-        //- Return a reference to the selected absolute permeability model
-        static autoPtr<geochemistryModel> New
-        (
-            fvMesh const& mesh,
-            porousMedia& parent
-        );
-
-
-    //- Destructor
-    virtual ~geochemistryModel()
+        virtual 
+    ~geochemistryModel ()
     {}
 
+        auto& 
+    parent ()
+    {
+        return parent_;
+    }
 
-    // Member Functions
-        porousMedia& parent ()
-        {
-            return parent_;
-        }
+    // Porosity
+        virtual volScalarField const& 
+    eps () const = 0;
 
-        //- Return the porosity
-        virtual volScalarField const& eps() const = 0;
+    // Density of the fluid
+        virtual volScalarField const& 
+    rho () const = 0;
 
-        //- Return the density of the fluid
-        virtual volScalarField const& rho() const = 0;
+    // Viscosity of the fluid
+        virtual volScalarField const& 
+    mu () const = 0;
 
-        //- Return the viscosity of the fluid
-        virtual volScalarField const& mu() const = 0;
+    // Source term for the flow solver
+        virtual volScalarField const& 
+    massSourceTerm () const = 0;
 
-        //- Source term for the flow solver
-        virtual volScalarField const& massSourceTerm() const = 0;
-
-        virtual void update() = 0;
-
-
-    // Member Operators
-
-        //- Disallow default bitwise assignment
-        void operator=(const geochemistryModel&) = delete;
+    // Update properties after a new velocity field  has been computed
+        virtual void 
+    update () = 0;
 };
 
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-} // End namespace Foam
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-// #ifdef NoRepository
-//     #include "geochemistryModel.C"
-// #endif
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-#endif
-
-// ************************************************************************* //
+} // namespace Foam

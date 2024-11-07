@@ -1,192 +1,147 @@
-/*---------------------------------------------------------------------------*\
-  =========                 |
-  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
-   \\    /   O peration     | Website:  https://openfoam.org
-    \\  /    A nd           | Copyright (C) 2022-2023 OpenFOAM Foundation
-     \\/     M anipulation  |
--------------------------------------------------------------------------------
-License
-    This file is part of OpenFOAM.
-
-    OpenFOAM is free software: you can redistribute it and/or modify it
-    under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
-    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-    for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
-
-Class
-    Foam::porousMedia
-
-Description
-    A class modelling a porous media. Encapsulates models for the geochemistry 
-    and absolute permeability.
-
-SourceFiles
-    porousMedia.C
-
-\*---------------------------------------------------------------------------*/
-
-#ifndef porousMedia_H
-#define porousMedia_H
-
+#pragma once
+#include "nonCopyable.H"
 #include "IOdictionary.H"
 #include "geochemistryModel.H"
 #include "absolutePermeabilityModel.H"
 #include "uniformDimensionedFields.H"
 #include "speciesTable.H"
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-namespace Foam
+    namespace 
+Foam
 {
+    class fvMesh;
 
-// Forward declaration of classes
-class fvMesh;
-
-/*---------------------------------------------------------------------------*\
-                       Class porousMedia Declaration
-\*---------------------------------------------------------------------------*/
-
-class porousMedia
-{
-    // Private member data
-
-        // Our link to OpenFOAM
-        IOdictionary dict_;
-
-        // The thermo-physical package for the pure fluid.
-        // It is here because it is it who owns the pressure fields (for some
-        // reasons)
-        autoPtr<fluidThermo> fluidThermo_;
-
-        // Model for the geochemistry
-        autoPtr <geochemistryModel> geochemistryModel_;
-
-        // Model for the absolute permeability
-        autoPtr <absolutePermeabilityModel> absolutePermeabilityModel_;
-
-        // Gravitational acceleration
-        uniformDimensionedVectorField g_;
-
-        // Transported solutes
-        speciesTable solutes_;
-        // Transported solutes concentrations
-        PtrList <volScalarField> soluteConcentrations_;
-
+    class 
+porousMedia
+    : public nonCopyable
+{       
+    // Our link to OpenFOAM
+        IOdictionary 
+    dict_;
+    
+    // The thermo-physical package for the pure fluid.
+    // It is here because it is it who owns the pressure fields (for some
+    // reasons)
+        autoPtr<fluidThermo> 
+    fluidThermo_;
+    
+        autoPtr <geochemistryModel> 
+    geochemistryModel_;
+    
+        autoPtr <absolutePermeabilityModel> 
+    absolutePermeabilityModel_;
+    
+        uniformDimensionedVectorField 
+    g_;
+    
+    // Transported solutes
+        speciesTable 
+    solutes_;
+    // Transported solutes concentrations
+        PtrList <volScalarField> 
+    soluteConcentrations_;
 
 public:
+    TypeName ("porousMedia");
 
-    //- Runtime type information
-        TypeName("porousMedia");
+    porousMedia (const fvMesh& mesh);
 
-    // Constructors
-
-        //- Construct from components
-        porousMedia
-        (
-            const fvMesh& mesh
-        );
-
-        //- Disallow default bitwise copy construction
-        porousMedia(const porousMedia&) = delete;
-
-    //- Destructor
-    virtual ~porousMedia()
+    // virtual because this class might become a base class for other kinds of
+    // porous media.
+        virtual 
+    ~porousMedia ()
     {}
 
+        auto& 
+    dict ()
+    {
+        return dict_;
+    }
+        auto const& 
+    dict () const
+    {
+        return dict_;
+    }
+        auto const& 
+    thermo () const
+    {
+        return *fluidThermo_;
+    }
+        auto const& 
+    solutes () const
+    {
+        return solutes_;
+    }
+        auto& 
+    soluteConcentrations () 
+    {
+        return soluteConcentrations_;
+    }
+        auto const& 
+    soluteConcentrations () const
+    {
+        return soluteConcentrations_;
+    }
+        auto& 
+    soluteConcentration (label soluteIndex) 
+    {
+        return soluteConcentrations_[soluteIndex];
+    }
 
-    // Member Functions
+    // Update the properties after a new velocity field has been computed
+        void
+    update ()
+    {
+        geochemistryModel_->update ();
+    }
 
-        IOdictionary& dict()
-        {
-            return dict_;
-        }
-        fluidThermo const& thermo() const
-        {
-            return *fluidThermo_;
-        }
-        speciesTable const& solutes() const
-        {
-            return solutes_;
-        }
-        PtrList <volScalarField>& soluteConcentrations() 
-        {
-            return soluteConcentrations_;
-        }
-        volScalarField& soluteConcentration(label soluteIndex) 
-        {
-            return soluteConcentrations_[soluteIndex];
-        }
+    // Pressure
+        auto& 
+    p ()
+    {
+        return fluidThermo_->p ();
+    }
 
-        // Update the properties after a new velocity field has been computed
-        void update()
-        {
-            geochemistryModel_->update();
-        }
+    // Porosity
+        auto const& 
+    eps () const
+    {
+        return geochemistryModel_->eps ();
+    }
 
-        //- Pressure
-        volScalarField& p()
-        {
-            return fluidThermo_->p();
-        }
+    // Absolute permeability
+        auto const& 
+    K () const
+    {
+        return absolutePermeabilityModel_->K ();
+    }
 
-        //- Porosity
-        volScalarField const& eps() const
-        {
-            return geochemistryModel_->eps();
-        }
+    // Density of the fluid
+        auto const& 
+    rho () const
+    {
+        return geochemistryModel_->rho ();
+    }
 
-        //- Absolute permeability
-        volTensorField const& K() const
-        {
-            return absolutePermeabilityModel_->K();
-        }
+    // Viscosity of the fluid
+        auto const& 
+    mu () const
+    {
+        return geochemistryModel_->mu ();
+    }
 
-        //- Density of the fluid
-        volScalarField const& rho() const
-        {
-            return geochemistryModel_->rho();
-        }
+    // Source term for the flow solver
+        auto const& 
+    massSourceTerm () const
+    {
+        return geochemistryModel_->massSourceTerm ();
+    }
 
-        //- Viscosity of the fluid
-        volScalarField const& mu() const
-        {
-            return geochemistryModel_->mu();
-        }
-
-        //- Source term for the flow solver
-        volScalarField const& massSourceTerm() const
-        {
-            return geochemistryModel_->massSourceTerm();
-        }
-
-        //- Gravitational acceleration
-        uniformDimensionedVectorField const& g() const
-        {
-            return g_;
-        }
-
-
-    // Member Operators
-
-        //- Disallow default bitwise assignment
-        void operator=(const porousMedia&) = delete;
+    // Gravitational acceleration
+        auto const& 
+    g () const
+    {
+        return g_;
+    }
 };
-
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-} // End namespace Foam
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-#endif
-
-// ************************************************************************* //
+} // namespace Foam

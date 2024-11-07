@@ -1,5 +1,4 @@
-#ifndef nonCopyable_H
-#define nonCopyable_H
+#pragma once
 
     struct
 nonCopyable
@@ -7,6 +6,3 @@ nonCopyable
     nonCopyable () = default;
     nonCopyable (nonCopyable const&) = delete;
 };
-
-#endif
-
