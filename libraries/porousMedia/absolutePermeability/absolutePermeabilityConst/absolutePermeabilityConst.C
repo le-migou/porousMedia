@@ -8,21 +8,8 @@ Foam
     namespace 
 absolutePermeabilityModels
 {
-    defineTypeNameAndDebug (absolutePermeabilityConst, 0);
-    addToRunTimeSelectionTable (
-          absolutePermeabilityModel
-        , absolutePermeabilityConst
-        , dictionary
-    );
-}
-}
 
-    namespace 
-Foam
-{
-    namespace 
-absolutePermeabilityModels
-{
+OPENFOAM_RUNTIME_SELECTOR_ADD(absolutePermeabilityModel, absolutePermeabilityConst)
 
 absolutePermeabilityConst::absolutePermeabilityConst (
       const fvMesh& mesh

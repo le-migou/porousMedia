@@ -9,8 +9,7 @@ Foam
 geochemistryModels
 {
 
-defineTypeNameAndDebug (geochemistryNone, 0);
-addToRunTimeSelectionTable (geochemistryModel, geochemistryNone, dictionary);
+OPENFOAM_RUNTIME_SELECTOR_ADD(geochemistryModel, geochemistryNone)
 
 geochemistryNone::geochemistryNone (fvMesh const& mesh, porousMedia& parent)
     : geochemistryModel { mesh, parent }

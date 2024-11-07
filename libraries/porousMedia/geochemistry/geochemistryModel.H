@@ -1,4 +1,5 @@
 #pragma once
+#include "runtimeSelection.H"
 #include "nonCopyable.H"
 #include "fvMesh.H"
 #include "volFieldsFwd.H"
@@ -25,15 +26,7 @@ protected:
 public:
     TypeName ("geochemistry");
 
-    declareRunTimeSelectionTable (
-          autoPtr
-        , geochemistryModel
-        , dictionary
-        , (fvMesh const& mesh, porousMedia& parent)
-        , (mesh, parent)
-    );
-        static autoPtr<geochemistryModel> 
-    New (fvMesh const& mesh, porousMedia& parent);
+    OPENFOAM_RUNTIME_SELECTOR_DECLARATION(geochemistryModel)
 
     geochemistryModel (fvMesh const& mesh, porousMedia& parent);
 

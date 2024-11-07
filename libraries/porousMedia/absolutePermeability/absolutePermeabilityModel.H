@@ -1,4 +1,5 @@
 #pragma once
+#include "runtimeSelection.H"
 #include "nonCopyable.H"
 #include "fvMesh.H"
 #include "volFieldsFwd.H"
@@ -19,17 +20,8 @@ absolutePermeabilityModel
 
 public:
     TypeName ("absolutePermeability");
-
-    declareRunTimeSelectionTable (
-          autoPtr
-        , absolutePermeabilityModel
-        , dictionary
-        , (const fvMesh& mesh , porousMedia& parent)
-        , (mesh , parent)
-    );
-
-        static autoPtr<absolutePermeabilityModel> 
-    New (const fvMesh& mesh, porousMedia& parent);
+    
+    OPENFOAM_RUNTIME_SELECTOR_DECLARATION(absolutePermeabilityModel)
 
     absolutePermeabilityModel (const fvMesh& mesh, porousMedia& parent)
         : parent_ (parent)
@@ -39,9 +31,9 @@ public:
     ~absolutePermeabilityModel ()
     {}
 
-        // Absolute permeability
-            virtual volTensorField const& 
-        K () const = 0;
+    // Absolute permeability
+        virtual volTensorField const& 
+    K () const = 0;
 
 };
 } // namespace Foam
