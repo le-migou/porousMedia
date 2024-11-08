@@ -1,5 +1,6 @@
 #include "porousMedia.H"
 #include "fvMesh.H"
+#include "hashedWordList.H"
 
     namespace 
 Foam
@@ -26,19 +27,25 @@ Foam::porousMedia::porousMedia (const fvMesh& mesh)
         , IOobject::MUST_READ
         , IOobject::NO_WRITE
       }}
-    , solutes_ { dict_.lookupOrDefault ("solutes", speciesTable {}) }
 {
-    forAll (solutes_, i)
+        auto
+    solutes = dict_.lookupOrDefault ("solutes", hashedWordList {});
+    forAll (solutes, i)
     {
-        soluteConcentrations_.append (new volScalarField (
-              IOobject {
-                "C." + solutes_[i]
-                , dict_.time ().name ()
-                , mesh
-                , IOobject::MUST_READ
-                , IOobject::AUTO_WRITE
-              }
-            , mesh
-        ));
+            auto const&
+        solute_name = solutes[i];
+            auto
+        solute_dict_name = solute_name + "Properties";
+            auto
+        solute_dict = dict_.subDictPtr (solute_dict_name);
+        if (solute_dict == nullptr)
+        {
+            FatalIOErrorInFunction(dict_)
+                << "keyword " << solute_dict_name << " is undefined in dictionary "
+                << dict_.name()
+                << exit(FatalIOError);
+
+        }
+        solutes_.append (new solute (mesh, *this, solute_name));
     }
 }

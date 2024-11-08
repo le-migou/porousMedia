@@ -12,7 +12,7 @@
         static autoPtr<MODELNAME>                                             \
     New (const fvMesh& mesh, porousMedia& parent);                            \
                                                                               
-#define OPENFOAM_RUNTIME_SELECTOR_IMPLEMENTATION(MODELNAME)                   \
+#define OPENFOAM_RUNTIME_SELECTOR_IMPLEMENTATION(MODELNAME, MODELNICENAME)    \
 namespace Foam                                                                \
 {                                                                             \
     defineTypeNameAndDebug (MODELNAME, 0);                                    \
@@ -24,7 +24,7 @@ namespace Foam                                                                \
                                                                               \
         const word modelType = parent.dict ().lookup (#MODELNAME);            \
                                                                               \
-        Info<< "Selecting absolute permeability model " << modelType << endl; \
+        Info<< "Selecting "#MODELNICENAME" model " << modelType << endl;      \
                                                                               \
         typename dictionaryConstructorTable::iterator cstrIter =              \
             dictionaryConstructorTablePtr_->find (modelType);                 \

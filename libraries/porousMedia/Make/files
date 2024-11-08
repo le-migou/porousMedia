@@ -7,4 +7,7 @@ geochemistry/geochemistryTransportOnly/geochemistryTransportOnly.C
 absolutePermeability/absolutePermeabilityModel.C
 absolutePermeability/absolutePermeabilityConst/absolutePermeabilityConst.C
 
+dispersion/dispersionModel.C
+dispersion/dispersionConst/dispersionConst.C
+
 LIB=$(FOAM_USER_LIBBIN)/libporousMedia

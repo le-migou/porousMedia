@@ -4,7 +4,7 @@
 #include "geochemistryModel.H"
 #include "absolutePermeabilityModel.H"
 #include "uniformDimensionedFields.H"
-#include "speciesTable.H"
+#include "solute.H"
 
     namespace 
 Foam
@@ -24,22 +24,14 @@ porousMedia
     // reasons)
         autoPtr<fluidThermo> 
     fluidThermo_;
-    
         autoPtr <geochemistryModel> 
     geochemistryModel_;
-    
         autoPtr <absolutePermeabilityModel> 
     absolutePermeabilityModel_;
-    
         uniformDimensionedVectorField 
     g_;
-    
-    // Transported solutes
-        speciesTable 
+        PtrList <solute>
     solutes_;
-    // Transported solutes concentrations
-        PtrList <volScalarField> 
-    soluteConcentrations_;
 
 public:
     TypeName ("porousMedia");
@@ -73,19 +65,9 @@ public:
         return solutes_;
     }
         auto& 
-    soluteConcentrations () 
-    {
-        return soluteConcentrations_;
-    }
-        auto const& 
-    soluteConcentrations () const
-    {
-        return soluteConcentrations_;
-    }
-        auto& 
     soluteConcentration (label soluteIndex) 
     {
-        return soluteConcentrations_[soluteIndex];
+        return solutes_[soluteIndex].concentration ();
     }
 
     // Update the properties after a new velocity field has been computed

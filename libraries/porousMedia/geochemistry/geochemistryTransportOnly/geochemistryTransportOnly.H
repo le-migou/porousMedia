@@ -12,16 +12,6 @@ geochemistryModels
 geochemistryTransportOnly
     : public geochemistryNone
 {
-    /*
-        dictionary 
-    coeffDict_;
-        dimensionedScalar 
-    eps0_;
-        volScalarField 
-    eps_;
-        volScalarField 
-    massSourceTerm_;
-    */
 public:
 
     TypeName ("geochemistryTransportOnly");
@@ -35,10 +25,8 @@ public:
     ~geochemistryTransportOnly ()
     {}
 
-    void update () override
-    {
-        // TODO
-    }
+        void 
+    update () override;
 };
 
 } // End namespace geochemistryModels

@@ -1,7 +1,7 @@
 #include "geochemistryModel.H"
 #include "porousMedia.H"
 
-OPENFOAM_RUNTIME_SELECTOR_IMPLEMENTATION(geochemistryModel)
+OPENFOAM_RUNTIME_SELECTOR_IMPLEMENTATION(geochemistryModel, geochemistry)
 
 Foam::geochemistryModel::geochemistryModel (
       fvMesh const& mesh
