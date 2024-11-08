@@ -1,5 +1,6 @@
 #pragma once
 #include "geochemistryNone.H"
+#include "dispersionModel.H"
 
     namespace 
 Foam
@@ -12,13 +13,15 @@ geochemistryModels
 geochemistryTransportOnly
     : public geochemistryNone
 {
+        PtrList <dispersionModel>
+    dispersionModels_;
 public:
 
     TypeName ("geochemistryTransportOnly");
 
     geochemistryTransportOnly (
           fvMesh const& mesh
-        , porousMedia& parent
+        , porousMedium& parent
         , word const& name = "geochemistryTransportOnly"
     );
 
@@ -29,5 +32,5 @@ public:
     update () override;
 };
 
-} // End namespace geochemistryModels
-} // End namespace Foam
+} // namespace geochemistryModels
+} // namespace Foam

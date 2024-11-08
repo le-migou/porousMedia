@@ -10,12 +10,12 @@
     namespace 
 Foam
 {
-    class porousMedia;
+    class porousMedium;
 
     class 
 geochemistryModel
     : public nonCopyable
-    , public modelBase <porousMedia>
+    , public modelBase <porousMedium>
 {
 protected:
         fluidThermo const& 
@@ -23,11 +23,11 @@ protected:
 
 public:
     TypeName ("geochemistryModel");
-    OPENFOAM_RUNTIME_SELECTOR_DECLARATION(geochemistryModel)
+    OPENFOAM_RUNTIME_SELECTOR_DECLARATION(geochemistryModel, porousMedium)
 
     geochemistryModel (
           fvMesh const& mesh
-        , porousMedia& parent
+        , porousMedium& parent
         , word const& name
     );
 

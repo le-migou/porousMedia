@@ -4,7 +4,7 @@
 #include "geochemistryModel.H"
 #include "absolutePermeabilityModel.H"
 #include "uniformDimensionedFields.H"
-#include "solute.H"
+#include "soluteMedium.H"
 
     namespace 
 Foam
@@ -12,7 +12,7 @@ Foam
     class fvMesh;
 
     class 
-porousMedia
+porousMedium
     : public nonCopyable
 {       
     // Our link to OpenFOAM
@@ -30,18 +30,18 @@ porousMedia
     absolutePermeabilityModel_;
         uniformDimensionedVectorField 
     g_;
-        PtrList <solute>
+        PtrList <soluteMedium>
     solutes_;
 
 public:
-    TypeName ("porousMedia");
+    TypeName ("porousMedium");
 
-    porousMedia (const fvMesh& mesh);
+    porousMedium (const fvMesh& mesh);
 
     // virtual because this class might become a base class for other kinds of
-    // porous media.
+    // porous medium.
         virtual 
-    ~porousMedia ()
+    ~porousMedium ()
     {}
 
         auto& 
@@ -63,6 +63,16 @@ public:
     solutes () const
     {
         return solutes_;
+    }
+        auto const& 
+    solute (label soluteIndex) const
+    {
+        return solutes_[soluteIndex];
+    }
+        auto& 
+    solute (label soluteIndex)
+    {
+        return solutes_[soluteIndex];
     }
         auto& 
     soluteConcentration (label soluteIndex) 

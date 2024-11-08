@@ -10,20 +10,20 @@
 Foam
 {
     class 
-porousMedia;
+soluteMedium;
 
     class 
 dispersionModel
     : public nonCopyable
-    , public modelBase <porousMedia>
+    , public modelBase <soluteMedium>
 {
 public:
     TypeName ("dispersion");
-    OPENFOAM_RUNTIME_SELECTOR_DECLARATION(dispersionModel)
+    OPENFOAM_RUNTIME_SELECTOR_DECLARATION(dispersionModel, soluteMedium)
 
     dispersionModel (
           const fvMesh& mesh
-        , porousMedia& parent
+        , soluteMedium& parent
         , word const& name
     )
         : modelBase { parent, name }

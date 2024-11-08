@@ -1,7 +1,7 @@
 #pragma once
 #include "nonCopyable.H"
 #include "fluid.H"
-#include "porousMedia.H"
+#include "porousMedium.H"
 
 namespace Foam
 {
@@ -12,8 +12,8 @@ darcy
     : public fluid
     , public nonCopyable
 {
-        porousMedia 
-    porousMedia_;
+        porousMedium 
+    porousMedium_;
 
     //- The inverse of the permeability tensor
     // FIXME: this is scalar ATM, I don't have a solution for adding an
@@ -30,9 +30,9 @@ darcy
         void 
     correctBuoyantPressure ();
         void 
-    updatePorousMedia ()
+    updatePorousMedium ()
     {
-        porousMedia_.update ();
+        porousMedium_.update ();
     }
 
 public:
@@ -40,10 +40,10 @@ public:
 
     darcy (fvMesh& mesh)
         : fluid { mesh }
-        , porousMedia_ { mesh }
+        , porousMedium_ { mesh }
         , muInvK_ { 
               momentumTransport->nu() * momentumTransport->rho() 
-            / porousMedia_.K ().component (tensor::XX)
+            / porousMedium_.K ().component (tensor::XX)
           }
     {}
 

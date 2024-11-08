@@ -1,22 +1,24 @@
 #pragma once
+#include "fvMesh.H"
 #include "mediumBase.H"
-#include "porousMedia.H"
-#include "volFieldsFwd.H"
+#include "nonCopyable.H"
+#include "volFields.H"
 
     namespace
 Foam
 {
+    class porousMedium;
     class
-solute 
+soluteMedium 
     : public nonCopyable
-    , public mediumBase <porousMedia>
+    , public mediumBase <porousMedium>
 {
         autoPtr <volScalarField>
     concentration_;
 public:
-    solute (
+    soluteMedium (
           const fvMesh& mesh
-        , porousMedia& parent
+        , porousMedium& parent
         , word const& name
     )
         : mediumBase { parent, name }
@@ -32,7 +34,7 @@ public:
           ) }
     {}
 
-    ~solute () = default;
+    ~soluteMedium () = default;
 
         volScalarField&
     concentration ()

@@ -23,7 +23,7 @@ public:
 
     absolutePermeabilityConst (
           const fvMesh& mesh
-        , porousMedia& parent
+        , porousMedium& parent
         , word const& name = "absolutePermeabilityConst"
     );
 

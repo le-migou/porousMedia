@@ -1,6 +1,6 @@
 #include "dispersionConst.H"
 #include "addToRunTimeSelectionTable.H"
-#include "porousMedia.H"
+#include "soluteMedium.H"
 
     namespace 
 Foam
@@ -13,7 +13,7 @@ OPENFOAM_RUNTIME_SELECTOR_ADD(dispersionModel, dispersionConst)
 
 dispersionConst::dispersionConst (
       const fvMesh& mesh
-    , porousMedia& parent
+    , soluteMedium& parent
     , word const& name
 )
     : dispersionModel { mesh, parent, name }

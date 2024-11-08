@@ -25,7 +25,7 @@ public:
 
     geochemistryNone (
           fvMesh const& mesh
-        , porousMedia& parent
+        , porousMedium& parent
         , word const& name = "geochemistryNone"
     );
 

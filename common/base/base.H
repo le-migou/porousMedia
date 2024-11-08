@@ -9,7 +9,7 @@ Foam
 base
 {
 protected: 
-        ModelParent&
+        ModelParent const&
     parent_;
         word
     name_;
@@ -17,7 +17,7 @@ protected:
     dict_;
 public:
     base (
-          ModelParent& parent
+          ModelParent const& parent
         , word const& name
         , dictionary const& dict
     )

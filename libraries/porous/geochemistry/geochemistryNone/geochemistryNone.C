@@ -1,6 +1,6 @@
 #include "geochemistryNone.H"
 #include "addToRunTimeSelectionTable.H"
-#include "porousMedia.H"
+#include "porousMedium.H"
 
     namespace 
 Foam
@@ -13,7 +13,7 @@ OPENFOAM_RUNTIME_SELECTOR_ADD(geochemistryModel, geochemistryNone)
 
 geochemistryNone::geochemistryNone (
       fvMesh const& mesh
-    , porousMedia& parent
+    , porousMedium& parent
     , word const& name
 )
     : geochemistryModel { mesh, parent, name }

@@ -1,14 +1,14 @@
-#include "porousMedia.H"
+#include "porousMedium.H"
 #include "fvMesh.H"
 #include "hashedWordList.H"
 
     namespace 
 Foam
 {
-    defineTypeNameAndDebug (porousMedia, 0);
+    defineTypeNameAndDebug (porousMedium, 0);
 }
 
-Foam::porousMedia::porousMedia (const fvMesh& mesh)
+Foam::porousMedium::porousMedium (const fvMesh& mesh)
     : dict_ { IOobject {
           "porousProperties"
         , mesh.time ().constant ()
@@ -46,6 +46,6 @@ Foam::porousMedia::porousMedia (const fvMesh& mesh)
                 << exit(FatalIOError);
 
         }
-        solutes_.append (new solute (mesh, *this, solute_name));
+        solutes_.append (new soluteMedium (mesh, *this, solute_name));
     }
 }

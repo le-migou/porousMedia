@@ -1,6 +1,6 @@
 #include "absolutePermeabilityConst.H"
 #include "addToRunTimeSelectionTable.H"
-#include "porousMedia.H"
+#include "porousMedium.H"
 
     namespace 
 Foam
@@ -13,7 +13,7 @@ OPENFOAM_RUNTIME_SELECTOR_ADD(absolutePermeabilityModel, absolutePermeabilityCon
 
 absolutePermeabilityConst::absolutePermeabilityConst (
       const fvMesh& mesh
-    , porousMedia& parent
+    , porousMedium& parent
     , word const& name
 )
     : absolutePermeabilityModel { mesh, parent, name }

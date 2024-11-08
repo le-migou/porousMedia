@@ -1,6 +1,6 @@
 #include "geochemistryTransportOnly.H"
 #include "addToRunTimeSelectionTable.H"
-#include "porousMedia.H"
+#include "porousMedium.H"
 #include "fvm.H"
 
     namespace 
@@ -14,16 +14,19 @@ OPENFOAM_RUNTIME_SELECTOR_ADD(geochemistryModel, geochemistryTransportOnly)
 
 geochemistryTransportOnly::geochemistryTransportOnly (
       fvMesh const& mesh
-    , porousMedia& parent
+    , porousMedium& parent
     , word const& name
 )
     : geochemistryNone { mesh, parent, name }
 {
-    /*
-    forAll (this->parent ().solutes(), i)
+    forAll (parent.solutes(), i)
     {
+            auto&
+        solute = parent.solute (i);
+        dispersionModels_.append (dispersionModel::New (
+            mesh, solute
+        ));
     }
-    */
 }
 
     void

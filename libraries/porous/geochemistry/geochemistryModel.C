@@ -1,11 +1,11 @@
 #include "geochemistryModel.H"
-#include "porousMedia.H"
+#include "porousMedium.H"
 
-OPENFOAM_RUNTIME_SELECTOR_IMPLEMENTATION(geochemistryModel, geochemistry)
+OPENFOAM_RUNTIME_SELECTOR_IMPLEMENTATION(geochemistryModel, porousMedium, geochemistry)
 
 Foam::geochemistryModel::geochemistryModel (
       fvMesh const& mesh
-    , porousMedia& parent
+    , porousMedium& parent
     , word const& name
 ) 
     : modelBase { parent, name }

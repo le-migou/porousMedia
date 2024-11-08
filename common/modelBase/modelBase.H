@@ -11,7 +11,7 @@ modelBase
 {
 public:
     modelBase (
-          modelParent& parent
+          modelParent const& parent
         , word const& name
     )
         : base <modelParent> { 

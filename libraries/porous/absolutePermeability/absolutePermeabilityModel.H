@@ -10,20 +10,20 @@
 Foam
 {
     class 
-porousMedia;
+porousMedium;
 
     class 
 absolutePermeabilityModel
     : public nonCopyable
-    , public modelBase <porousMedia>
+    , public modelBase <porousMedium>
 {
 public:
     TypeName ("absolutePermeability");
-    OPENFOAM_RUNTIME_SELECTOR_DECLARATION(absolutePermeabilityModel)
+    OPENFOAM_RUNTIME_SELECTOR_DECLARATION(absolutePermeabilityModel, porousMedium)
 
     absolutePermeabilityModel (
           const fvMesh& mesh
-        , porousMedia& parent
+        , porousMedium& parent
         , word const& name
     )
         : modelBase { parent, name }

@@ -1,7 +1,7 @@
 #pragma once
 #include "base.H"
 
-namespace
+    namespace
 Foam
 {
     template <class mediumParent>
@@ -11,14 +11,8 @@ mediumBase
 {
 public:
     mediumBase (
-          mediumParent& parent
+          mediumParent const& parent
         , word const& name
-    )
-        : base <mediumParent> { 
-              parent
-            , name
-            , parent.dict ().subDict (name + "Properties") 
-          }
-    {}
+    );
 };
 } // namespace Foam

@@ -23,7 +23,7 @@ public:
 
     dispersionConst (
           const fvMesh& mesh
-        , porousMedia& parent
+        , soluteMedium& parent
         , word const& name = "dispersionConst"
     );
 

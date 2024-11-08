@@ -1,1 +1,1 @@
-LIB=$(FOAM_USER_LIBBIN)/libporousMedia
+LIB=$(FOAM_USER_LIBBIN)/libporous
