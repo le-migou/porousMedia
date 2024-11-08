@@ -1,13 +1,15 @@
 porousMedium.C
 
+absolutePermeability/absolutePermeabilityModel.C
+absolutePermeability/absolutePermeabilityConst/absolutePermeabilityConst.C
+
 geochemistry/geochemistryModel.C
 geochemistry/geochemistryNone/geochemistryNone.C
 geochemistry/geochemistryTransportOnly/geochemistryTransportOnly.C
 
-absolutePermeability/absolutePermeabilityModel.C
-absolutePermeability/absolutePermeabilityConst/absolutePermeabilityConst.C
+solute/soluteMedium.C
 
-dispersion/dispersionModel.C
-dispersion/dispersionConst/dispersionConst.C
+solute/dispersion/dispersionModel.C
+solute/dispersion/dispersionConst/dispersionConst.C
 
 LIB=$(FOAM_USER_LIBBIN)/libporous
