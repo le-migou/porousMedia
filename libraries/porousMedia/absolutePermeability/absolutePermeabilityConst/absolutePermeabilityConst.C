@@ -14,10 +14,10 @@ OPENFOAM_RUNTIME_SELECTOR_ADD(absolutePermeabilityModel, absolutePermeabilityCon
 absolutePermeabilityConst::absolutePermeabilityConst (
       const fvMesh& mesh
     , porousMedia& parent
+    , word const& name
 )
-    : absolutePermeabilityModel { mesh, parent }
-    , coeffDict_ { parent.dict ().subDict (type () + "Coeffs") }
-    , K0_ { "K0", dimLength * dimLength, coeffDict_ }
+    : absolutePermeabilityModel { mesh, parent, name }
+    , K0_ { "K0", dimLength * dimLength, dict () }
     , K_ {
           IOobject {
               "K"

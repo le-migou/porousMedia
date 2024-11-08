@@ -2,6 +2,7 @@ porousMedia.C
 
 geochemistry/geochemistryModel.C
 geochemistry/geochemistryNone/geochemistryNone.C
+geochemistry/geochemistryTransportOnly/geochemistryTransportOnly.C
 
 absolutePermeability/absolutePermeabilityModel.C
 absolutePermeability/absolutePermeabilityConst/absolutePermeabilityConst.C

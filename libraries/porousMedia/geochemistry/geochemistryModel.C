@@ -6,8 +6,9 @@ OPENFOAM_RUNTIME_SELECTOR_IMPLEMENTATION(geochemistryModel)
 Foam::geochemistryModel::geochemistryModel (
       fvMesh const& mesh
     , porousMedia& parent
+    , word const& name
 ) 
-    : parent_ (parent)
-    , fluidThermo_ (parent.thermo ())
+    : modelBase { parent, name }
+    , fluidThermo_ { parent.thermo () }
 {}
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "../geochemistryModel.H"
+#include "geochemistryModel.H"
 
     namespace 
 Foam
@@ -12,8 +12,6 @@ geochemistryModels
 geochemistryNone
     : public geochemistryModel
 {
-        dictionary 
-    coeffDict_;
         dimensionedScalar 
     eps0_;
         volScalarField 
@@ -25,7 +23,11 @@ public:
 
     TypeName ("geochemistryNone");
 
-    geochemistryNone (fvMesh const& mesh, porousMedia& parent);
+    geochemistryNone (
+          fvMesh const& mesh
+        , porousMedia& parent
+        , word const& name = "geochemistryNone"
+    );
 
     ~geochemistryNone ()
     {}
@@ -55,5 +57,5 @@ public:
     {}
 };
 
-} // End namespace geochemistryModels
-} // End namespace Foam
+} // namespace geochemistryModels
+} // namespace Foam

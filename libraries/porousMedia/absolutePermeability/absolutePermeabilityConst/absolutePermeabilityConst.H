@@ -13,18 +13,19 @@ absolutePermeabilityModels
 absolutePermeabilityConst
     : public absolutePermeabilityModel
 {
-        dictionary 
-    coeffDict_;
         dimensionedTensor 
     K0_;
         volTensorField 
     K_;
 
 public:
-
     TypeName ("absolutePermeabilityConst");
 
-    absolutePermeabilityConst (const fvMesh& mesh, porousMedia& parent);
+    absolutePermeabilityConst (
+          const fvMesh& mesh
+        , porousMedia& parent
+        , word const& name = "absolutePermeabilityConst"
+    );
 
     ~absolutePermeabilityConst ()
     {}

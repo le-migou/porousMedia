@@ -1,10 +1,10 @@
 #pragma once
+#include "modelBase.H"
 #include "runtimeSelection.H"
 #include "nonCopyable.H"
 #include "fvMesh.H"
 #include "volFieldsFwd.H"
 #include "runTimeSelectionTables.H"
-#include "hashedWordList.H"
 #include "fluidThermo.H"
 
     namespace 
@@ -15,30 +15,26 @@ Foam
     class 
 geochemistryModel
     : public nonCopyable
+    , public modelBase <porousMedia>
 {
-        porousMedia& 
-    parent_;
-
 protected:
         fluidThermo const& 
     fluidThermo_;
 
 public:
-    TypeName ("geochemistry");
-
+    TypeName ("geochemistryModel");
     OPENFOAM_RUNTIME_SELECTOR_DECLARATION(geochemistryModel)
 
-    geochemistryModel (fvMesh const& mesh, porousMedia& parent);
+    geochemistryModel (
+          fvMesh const& mesh
+        , porousMedia& parent
+        , word const& name
+    );
 
         virtual 
     ~geochemistryModel ()
     {}
 
-        auto& 
-    parent ()
-    {
-        return parent_;
-    }
 
     // Porosity
         virtual volScalarField const& 

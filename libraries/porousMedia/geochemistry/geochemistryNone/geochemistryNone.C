@@ -11,10 +11,13 @@ geochemistryModels
 
 OPENFOAM_RUNTIME_SELECTOR_ADD(geochemistryModel, geochemistryNone)
 
-geochemistryNone::geochemistryNone (fvMesh const& mesh, porousMedia& parent)
-    : geochemistryModel { mesh, parent }
-    , coeffDict_ { parent.dict ().subDict (type () + "Coeffs") }
-    , eps0_  { "eps0", dimless, coeffDict_ }
+geochemistryNone::geochemistryNone (
+      fvMesh const& mesh
+    , porousMedia& parent
+    , word const& name
+)
+    : geochemistryModel { mesh, parent, name }
+    , eps0_  { "eps0", dimless, dict () }
     , eps_ {
           IOobject {
               "eps"

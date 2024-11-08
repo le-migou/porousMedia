@@ -16,7 +16,7 @@ FoamFile
 
 absolutePermeabilityModel absolutePermeabilityConst;
 
-absolutePermeabilityConstCoeffs
+absolutePermeabilityConstParameters
 {
     K0 (
         1e-11 0     0
@@ -27,7 +27,7 @@ absolutePermeabilityConstCoeffs
 
 geochemistryModel geochemistryNone;
 
-geochemistryNoneCoeffs
+geochemistryNoneParameters
 {
     eps0 0.2;
 }
