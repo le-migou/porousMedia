@@ -13,6 +13,12 @@ public:
     mediumBase (
           mediumParent const& parent
         , word const& name
-    );
+    )
+    : base <mediumParent> { 
+          parent
+        , name
+        , parent.dict ().subDict (name + "Properties") 
+        }
+    {}
 };
 } // namespace Foam
