@@ -1,0 +1,16 @@
+* Test case for the `darcy` solver: 1D transport of a tracer
+
+  Simulate the advective-dispersive transport of a tracer in a semi-infinite
+  porous medium with prescribed concentration at the origin and zero
+  concentration at the infinite. Compare the results with the analytical
+  solution by Ogata and Banks (1961).
+
+  We emulate a semi-infinite medium by running the simulation over a one metre
+  long domain with a zero gradient boundary condition on the right-hand side,
+  representing the infinite part, and considering the results only on one-tenth 
+  of the domain, on the left hand-side, where the concentration is prescribed.
+
+  Run the test with `foamCleanCase && foamRunTutorials` and check the results
+  displayed in the `plot.png` image file.
+
+  Requires `gnuplot`.

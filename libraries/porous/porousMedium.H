@@ -4,7 +4,8 @@
 #include "geochemistryModel.H"
 #include "absolutePermeabilityModel.H"
 #include "uniformDimensionedFields.H"
-#include "soluteMedium.H"
+#include "soluteMediumList.H"
+#include "isothermalFluid.H"
 
     namespace 
 Foam
@@ -15,9 +16,13 @@ Foam
 porousMedium
     : public nonCopyable
 {       
-    // Our link to OpenFOAM
+        solvers::isothermalFluid const&
+    solver_;
         IOdictionary 
     dict_;
+
+        soluteMediumList
+    soluteList_;
     
     // The thermo-physical package for the pure fluid.
     // It is here because it is it who owns the pressure fields (for some
@@ -30,19 +35,18 @@ porousMedium
     absolutePermeabilityModel_;
         uniformDimensionedVectorField 
     g_;
+    /*
         PtrList <soluteMedium>
     solutes_;
+    */
 
 public:
     TypeName ("porousMedium");
 
-    porousMedium (const fvMesh& mesh);
+    porousMedium (const fvMesh& mesh, solvers::isothermalFluid const& solver);
 
-    // virtual because this class might become a base class for other kinds of
-    // porous medium.
-        virtual 
-    ~porousMedium ()
-    {}
+        virtual
+    ~porousMedium () = default;
 
         auto& 
     dict ()
@@ -62,22 +66,27 @@ public:
         auto const& 
     solutes () const
     {
-        return solutes_;
+        return soluteList_;
     }
         auto const& 
     solute (label soluteIndex) const
     {
-        return solutes_[soluteIndex];
+        return soluteList_[soluteIndex];
     }
         auto& 
     solute (label soluteIndex)
     {
-        return solutes_[soluteIndex];
+        return soluteList_[soluteIndex];
+    }
+        const auto& 
+    soluteConcentration (label soluteIndex) const
+    {
+        return soluteList_[soluteIndex].concentration ();
     }
         auto& 
     soluteConcentration (label soluteIndex) 
     {
-        return solutes_[soluteIndex].concentration ();
+        return soluteList_[soluteIndex].concentration ();
     }
 
     // Update the properties after a new velocity field has been computed
@@ -88,10 +97,22 @@ public:
     }
 
     // Pressure
-        auto& 
-    p ()
+        auto const& 
+    p () const
     {
         return fluidThermo_->p ();
+    }
+    // Velocity
+       auto const&
+    U () const
+    {
+        return solver_.U;
+    }
+    // Velocity (flux at the faces)
+       auto const&
+    phi () const
+    {
+        return solver_.phi;
     }
 
     // Porosity

@@ -1,0 +1,48 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  dev
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// /!\ This is the kinematic pressure (i.e. the pressure divided by the density)
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 1e5;
+
+boundaryField
+{
+    top
+    {
+        type            empty;
+    }
+    bottom
+    {
+        type            empty;
+    }
+    frontAndBack
+    {
+        type            empty;
+    }
+    right
+    {
+        type            fixedValue;
+        value           uniform 100100;
+    }
+    left
+    {
+        type            fixedValue;
+        value           uniform 100000;
+    }
+}
+
+// ************************************************************************* //

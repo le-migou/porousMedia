@@ -8,6 +8,7 @@ geochemistry/geochemistryNone/geochemistryNone.C
 geochemistry/geochemistryTransportOnly/geochemistryTransportOnly.C
 
 solute/soluteMedium.C
+solute/soluteMediumList.C
 
 solute/dispersion/dispersionModel.C
 solute/dispersion/dispersionConst/dispersionConst.C

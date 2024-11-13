@@ -40,7 +40,7 @@ public:
 
     darcy (fvMesh& mesh)
         : fluid { mesh }
-        , porousMedium_ { mesh }
+        , porousMedium_ { mesh, *this }
         , muInvK_ { 
               momentumTransport->nu() * momentumTransport->rho() 
             / porousMedium_.K ().component (tensor::XX)

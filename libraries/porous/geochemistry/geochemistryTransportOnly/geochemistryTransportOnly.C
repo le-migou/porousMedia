@@ -2,6 +2,7 @@
 #include "addToRunTimeSelectionTable.H"
 #include "porousMedium.H"
 #include "fvm.H"
+#include "fvc.H"
 
     namespace 
 Foam
@@ -19,7 +20,7 @@ geochemistryTransportOnly::geochemistryTransportOnly (
 )
     : geochemistryNone { mesh, parent, name }
 {
-    forAll (parent.solutes(), i)
+    forAll (parent.solutes (), i)
     {
             auto&
         solute = parent.solute (i);
@@ -32,19 +33,35 @@ geochemistryTransportOnly::geochemistryTransportOnly (
     void
 geochemistryTransportOnly::update ()
 {
-    /*
     forAll (parent().solutes(), i)
     {
-            volScalarField&
-        C = parent().soluteConcentration(i);
+            auto const&
+        solute = parent ().solute (i);
+            auto&
+        C = solute.concentration ();
+            auto const& 
+        eps = parent ().eps ();
+            auto const&
+        phiRho = parent ().phi ();
+            auto const 
+        rhof = fvc::interpolate (parent ().rho ());
+            auto const
+        phi = phiRho / rhof;
+        /* Or
+            auto const
+        phi = fvc::flux (parent (). U());
+        */
+            auto const&
+        D = dispersionModels_[i].D ();
         fvScalarMatrix Ceqn
         (
-            fvm::ddt(eps_, C) + fvm::div(phi_, C, "divPhiC")
-            - fvm::laplacian(eps_ * D, C, "laplacianDC")
+              fvm::ddt (eps, C) 
+            + fvm::div (phi, C, "div(phi,C)") 
+            - fvm::laplacian (eps * D, C, "laplacian(eps*D,C)")
         );
-
+        Ceqn.relax ();
+        Ceqn.solve ();
     }
-    */
 }
 
 } // namespace geochemistryModels

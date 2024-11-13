@@ -1,0 +1,50 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  11
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      porousProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+absolutePermeabilityModel absolutePermeabilityConst;
+
+absolutePermeabilityConstParameters
+{
+    K0 (
+        1e-8  0     0
+        0     1e-8  0
+        0     0     1e-8 
+    );
+}
+
+geochemistryModel geochemistryTransportOnly;
+
+geochemistryTransportOnlyParameters
+{
+    eps0 0.2;
+}
+
+solutes (tracer);
+
+tracerProperties
+{
+    dispersionModel dispersionConst;
+    dispersionConstParameters
+    {
+        D0 (
+            1e-5 0    0
+            0    1e-5 0
+            0    0    1e-5
+        );
+    }
+}
+
+// ************************************************************************* //

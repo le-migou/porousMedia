@@ -1,0 +1,39 @@
+set terminal png size 1280, 1024
+set output "plot.png"
+
+# Ogata and Banks (1961) analytical solution.
+eps = 0.2   # Porosity []
+L   = 0.1   # Length [m]
+U   = 1e-3  # Darcy Velocity [m/s]
+D   = 1.e-5 # Dispersion [m^2/s]
+C0  = 0.1   # Concentration [kg/m^3]
+Uc = U/eps
+C (x, t) = C0 / 2 * (                                              \
+                         erfc ((x - Uc * t) / 2 / sqrt (D * t))    \
+    + exp (Uc * x / D) * erfc ((x + Uc * t) / 2 / sqrt (D * t))    \
+)
+
+set multiplot layout 2,1
+set yrange [0:C0]
+set xlabel "t [s]"
+set ylabel "C [kg/m3]"
+set key left
+set title "Breakthrough concentrations"
+plot [t = 0:50] C(L, t) with lines title "Analytical" \
+    , "postProcessing/probes/0/C.tracer" with points title "Numerical"
+
+set xlabel "x [m]"
+set key bottom
+set title "Concentration profiles"
+plot \
+      [x=0:L] C(x, 5) with line title "t = 5s, analytical" \
+    , "postProcessing/graphUniform/5/line.xy" with points title "t = 5s, numerical" \
+    , [x=0:L] C(x, 10) with line title "t = 10s, analytical" \
+    , "postProcessing/graphUniform/10/line.xy" with points  title "t = 10s, numerical"\
+    , [x=0:L] C(x, 20) with line title "t = 20s, analytical" \
+    , "postProcessing/graphUniform/20/line.xy" with points  title "t = 20s, numerical"\
+
+
+unset multiplot
+
+# vim: ft=gnuplot
