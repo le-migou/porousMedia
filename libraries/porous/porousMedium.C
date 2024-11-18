@@ -20,7 +20,8 @@ Foam::porousMedium::porousMedium (
         , IOobject::NO_WRITE
         , true
       }}
-    , soluteList_ { mesh, *this }
+    , soluteList_  { mesh, *this }
+    , mineralList_ { mesh, *this }
     , fluidThermo_ { fluidThermo::New (mesh) }
     , geochemistryModel_ { geochemistryModel::New (mesh, *this) }
     , absolutePermeabilityModel_ { absolutePermeabilityModel::New (mesh, *this) }

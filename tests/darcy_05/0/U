@@ -38,7 +38,9 @@ boundaryField
     }
     left
     {
-        type            zeroGradient;
+        //type            zeroGradient;
+        type            fixedValue;
+        value           uniform (1e-3 0 0);
     }
 }
 

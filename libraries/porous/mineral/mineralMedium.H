@@ -3,45 +3,37 @@
 #include "mediumBase.H"
 #include "nonCopyable.H"
 #include "volFields.H"
-#include "dispersionModel.H"
 
     namespace
 Foam
 {
     class porousMedium;
     class
-soluteMedium 
+mineralMedium 
     : public nonCopyable
     , public mediumBase <porousMedium>
 {
         volScalarField
-    concentration_;
-        autoPtr <dispersionModel>
-    dispersionModel_;
+    volumeFraction_;
 public:
-    soluteMedium (
+    mineralMedium (
           const fvMesh& mesh
         , porousMedium& parent
         , word const& name
     );
 
-    ~soluteMedium () = default;
+    ~mineralMedium () = default;
 
         volScalarField&
-    concentration ()
+    volumeFraction ()
     {
-        return concentration_;
+        return volumeFraction_;
     }
 
         const volScalarField&
-    concentration () const
+    volumeFraction () const
     {
-        return concentration_;
-    }
-        const auto&
-    D () const
-    {
-        return dispersionModel_->D ();
+        return volumeFraction_;
     }
 };
 } // namespace Foam

@@ -1,15 +1,15 @@
-#include "soluteMedium.H"
+#include "mineralMedium.H"
 #include "porousMedium.H"
 
-Foam::soluteMedium::soluteMedium (
+Foam::mineralMedium::mineralMedium (
       const fvMesh& mesh
     , porousMedium& parent
     , word const& name
 )
     : mediumBase { parent, name }
-    , concentration_ { 
+    , volumeFraction_ { 
             IOobject {
-              "C." + name
+              "Ys." + name
             , mesh.time ().name ()
             , mesh
             , IOobject::MUST_READ
@@ -17,7 +17,4 @@ Foam::soluteMedium::soluteMedium (
             }
         , mesh
       }
-    , dispersionModel_ { dispersionModel::New (
-        mesh, *this
-      )}
 {}

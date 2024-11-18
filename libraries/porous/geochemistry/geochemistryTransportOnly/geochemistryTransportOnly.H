@@ -1,6 +1,5 @@
 #pragma once
 #include "geochemistryNone.H"
-#include "dispersionModel.H"
 
     namespace 
 Foam
@@ -13,8 +12,6 @@ geochemistryModels
 geochemistryTransportOnly
     : public geochemistryNone
 {
-        PtrList <dispersionModel>
-    dispersionModels_;
 public:
 
     TypeName ("geochemistryTransportOnly");
@@ -25,8 +22,7 @@ public:
         , word const& name = "geochemistryTransportOnly"
     );
 
-    ~geochemistryTransportOnly ()
-    {}
+    ~geochemistryTransportOnly () = default;
 
         void 
     update () override;

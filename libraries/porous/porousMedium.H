@@ -5,6 +5,7 @@
 #include "absolutePermeabilityModel.H"
 #include "uniformDimensionedFields.H"
 #include "soluteMediumList.H"
+#include "mineralMediumList.H"
 #include "isothermalFluid.H"
 
     namespace 
@@ -23,6 +24,8 @@ porousMedium
 
         soluteMediumList
     soluteList_;
+        mineralMediumList
+    mineralList_;
     
     // The thermo-physical package for the pure fluid.
     // It is here because it is it who owns the pressure fields (for some

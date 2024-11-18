@@ -20,6 +20,7 @@ geochemistryTransportOnly::geochemistryTransportOnly (
 )
     : geochemistryNone { mesh, parent, name }
 {
+    /*
     forAll (parent.solutes (), i)
     {
             auto&
@@ -28,6 +29,7 @@ geochemistryTransportOnly::geochemistryTransportOnly (
             mesh, solute
         ));
     }
+    */
 }
 
     void
@@ -52,7 +54,7 @@ geochemistryTransportOnly::update ()
         phi = fvc::flux (parent (). U());
         */
             auto const&
-        D = dispersionModels_[i].D ();
+        D = solute.D ();
         fvScalarMatrix Ceqn
         (
               fvm::ddt (eps, C) 

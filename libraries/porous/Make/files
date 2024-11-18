@@ -6,11 +6,18 @@ absolutePermeability/absolutePermeabilityConst/absolutePermeabilityConst.C
 geochemistry/geochemistryModel.C
 geochemistry/geochemistryNone/geochemistryNone.C
 geochemistry/geochemistryTransportOnly/geochemistryTransportOnly.C
+#geochemistry/geochemistryFirstOrderKinetic/geochemistryFirstOrderKinetic.C
 
 solute/soluteMedium.C
 solute/soluteMediumList.C
 
 solute/dispersion/dispersionModel.C
 solute/dispersion/dispersionConst/dispersionConst.C
+
+mineral/mineralMedium.C
+mineral/mineralMediumList.C
+
+mineral/surfaceArea/surfaceAreaModel.C
+mineral/surfaceArea/surfaceAreaConst/surfaceAreaConst.C
 
 LIB=$(FOAM_USER_LIBBIN)/libporous
