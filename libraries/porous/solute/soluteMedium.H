@@ -5,6 +5,18 @@
 #include "volFields.H"
 #include "dispersionModel.H"
 
+#define POROUS_MEDIA_DECLARE_MODEL(MODEL)                     \
+private:                                                      \
+        autoPtr <MODEL##Model>                                \
+    MODEL##Model_ { nullptr };                                \
+public:                                                       \
+    void                                                      \
+init_model_##MODEL ()                                         \
+{                                                             \
+    if (MODEL##Model_.valid ()) return;                       \
+    MODEL##Model_ = MODEL##Model::New (mesh (), *this);       \
+}
+
     namespace
 Foam
 {
@@ -16,9 +28,10 @@ soluteMedium
 {
         volScalarField
     concentration_;
-        autoPtr <dispersionModel>
-    dispersionModel_;
 public:
+
+    POROUS_MEDIA_DECLARE_MODEL(dispersion)
+
     soluteMedium (
           const fvMesh& mesh
         , porousMedium& parent
@@ -32,12 +45,12 @@ public:
     {
         return concentration_;
     }
-
         const volScalarField&
     concentration () const
     {
         return concentration_;
     }
+
         const auto&
     D () const
     {

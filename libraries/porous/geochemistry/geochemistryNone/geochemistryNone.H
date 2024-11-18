@@ -16,8 +16,6 @@ geochemistryNone
     eps0_;
         volScalarField 
     eps_;
-        volScalarField 
-    massSourceTerm_;
 
 public:
 
@@ -46,11 +44,6 @@ public:
     mu () const override
     {
         return fluidThermo_.mu ();
-    }
-        volScalarField const& 
-    massSourceTerm () const override
-    {
-        return massSourceTerm_;
     }
 
     void update () override

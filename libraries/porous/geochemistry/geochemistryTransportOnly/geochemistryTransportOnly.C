@@ -20,29 +20,20 @@ geochemistryTransportOnly::geochemistryTransportOnly (
 )
     : geochemistryNone { mesh, parent, name }
 {
-    /*
-    forAll (parent.solutes (), i)
-    {
-            auto&
-        solute = parent.solute (i);
-        dispersionModels_.append (dispersionModel::New (
-            mesh, solute
-        ));
-    }
-    */
+    POROUS_MEDIA_REQUIRES_SOLUTE_MODEL(dispersion)
 }
 
     void
 geochemistryTransportOnly::update ()
 {
-    forAll (parent().solutes(), i)
+    forAll (parent ().solutes (), i)
     {
             auto const&
         solute = parent ().solute (i);
             auto&
         C = solute.concentration ();
             auto const& 
-        eps = parent ().eps ();
+        eps_ = eps ();
             auto const&
         phiRho = parent ().phi ();
             auto const 
@@ -57,9 +48,9 @@ geochemistryTransportOnly::update ()
         D = solute.D ();
         fvScalarMatrix Ceqn
         (
-              fvm::ddt (eps, C) 
+              fvm::ddt (eps_, C) 
             + fvm::div (phi, C, "div(phi,C)") 
-            - fvm::laplacian (eps * D, C, "laplacian(eps*D,C)")
+            - fvm::laplacian (eps_ * D, C, "laplacian(eps*D,C)")
         );
         Ceqn.relax ();
         Ceqn.solve ();

@@ -20,6 +20,7 @@ Foam::porousMedium::porousMedium (
         , IOobject::NO_WRITE
         , true
       }}
+    , mesh_ { mesh }
     , soluteList_  { mesh, *this }
     , mineralList_ { mesh, *this }
     , fluidThermo_ { fluidThermo::New (mesh) }

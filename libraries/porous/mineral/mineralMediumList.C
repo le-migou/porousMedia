@@ -5,7 +5,19 @@
 Foam::mineralMediumList::mineralMediumList (
       fvMesh const& mesh
     , porousMedium& parent
-){
+)
+    : inertVolumeFraction_ {
+          IOobject {
+              "Ys.inert"
+            , mesh.time ().name ()
+            , mesh
+            , IOobject::READ_IF_PRESENT
+            , IOobject::AUTO_WRITE
+          }
+        , mesh
+        , dimensionedScalar (dimless, 0)
+      }
+{
         auto&
     dict = parent.dict ();
         auto
@@ -26,6 +38,6 @@ Foam::mineralMediumList::mineralMediumList (
                 << exit(FatalIOError);
 
         }
-        data_.append (new mineralMedium (mesh, parent, mineral_name));
+        minerals_.append (new mineralMedium (mesh, parent, mineral_name));
     }
 }

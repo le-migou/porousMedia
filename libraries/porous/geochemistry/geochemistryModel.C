@@ -8,7 +8,7 @@ Foam::geochemistryModel::geochemistryModel (
     , porousMedium& parent
     , word const& name
 ) 
-    : modelBase { parent, name }
+    : modelBase { parent, name, mesh }
     , fluidThermo_ { parent.thermo () }
 {}
 

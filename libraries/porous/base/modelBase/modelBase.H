@@ -13,11 +13,13 @@ public:
     modelBase (
           modelParent const& parent
         , word const& name
+        , fvMesh const& mesh
     )
         : base <modelParent> { 
               parent
             , name 
             , parent.dict ().subDict (name + "Parameters") 
+            , mesh
           }
     {}
 };

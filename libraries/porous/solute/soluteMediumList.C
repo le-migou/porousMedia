@@ -26,6 +26,6 @@ Foam::soluteMediumList::soluteMediumList (
                 << exit(FatalIOError);
 
         }
-        data_.append (new soluteMedium (mesh, parent, solute_name));
+        solutes_.append (new soluteMedium (mesh, parent, solute_name));
     }
 }

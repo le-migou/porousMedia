@@ -49,8 +49,10 @@ public:
     mu () const = 0;
 
     // Source term for the flow solver
+    /*
         virtual volScalarField const& 
     massSourceTerm () const = 0;
+    */
 
     // Update properties after a new velocity field  has been computed
         virtual void 

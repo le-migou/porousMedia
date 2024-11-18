@@ -29,7 +29,6 @@ public:
     {
         return volumeFraction_;
     }
-
         const volScalarField&
     volumeFraction () const
     {

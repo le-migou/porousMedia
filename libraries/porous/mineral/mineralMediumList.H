@@ -1,6 +1,7 @@
 #pragma once
 #include "nonCopyable.H"
 #include "mineralMedium.H"
+#include "volFieldsFwd.H"
 
     namespace
 Foam
@@ -11,24 +12,31 @@ mineralMediumList
     : public nonCopyable
 {
         PtrList <mineralMedium>
-    data_;
+    minerals_;
+        volScalarField
+    inertVolumeFraction_;
 public:
     mineralMediumList (fvMesh const& mesh, porousMedium& parent);
 
         auto const&
     operator [] (label index) const
     {
-        return data_[index];
+        return minerals_[index];
     }
         auto&
     operator [] (label index)
     {
-        return data_[index];
+        return minerals_[index];
     }
         auto
     size () const
     {
-        return data_.size ();
+        return minerals_.size ();
+    }
+        const auto&
+    inertVolumeFraction () const
+    {
+        return inertVolumeFraction_;
     }
 };
 } // namespace Foam

@@ -6,7 +6,7 @@ Foam::soluteMedium::soluteMedium (
     , porousMedium& parent
     , word const& name
 )
-    : mediumBase { parent, name }
+    : mediumBase { parent, name, mesh }
     , concentration_ { 
             IOobject {
               "C." + name
@@ -17,7 +17,4 @@ Foam::soluteMedium::soluteMedium (
             }
         , mesh
       }
-    , dispersionModel_ { dispersionModel::New (
-        mesh, *this
-      )}
 {}

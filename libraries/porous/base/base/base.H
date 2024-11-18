@@ -1,5 +1,7 @@
 #pragma once
 #include "dictionary.H"
+#include "fvMesh.H"
+#include "fvMesh.H"
 
 namespace
 Foam
@@ -15,15 +17,19 @@ protected:
     name_;
         dictionary const&
     dict_;
+        fvMesh const&
+    mesh_;
 public:
     base (
           ModelParent const& parent
         , word const& name
         , dictionary const& dict
+        , fvMesh const& mesh
     )
         : parent_ { parent }
         , name_ { name }
         , dict_ { dict }
+        , mesh_ { mesh }
     {}
 
         auto& 
@@ -55,6 +61,16 @@ public:
     dict () const
     {
         return dict_;
+    }
+        auto&
+    mesh ()
+    {
+        return mesh_;
+    }
+        const auto&
+    mesh () const
+    {
+        return mesh_;
     }
 };
 } // namespace Foam

@@ -12,6 +12,12 @@ geochemistryModels
 geochemistryFirstOrderKinetic
     : public geochemistryModel
 {
+        volScalarField 
+    eps_;
+
+        void
+    update_porosity ();
+
 public:
 
     TypeName ("geochemistryFirstOrderKinetic");
@@ -22,8 +28,7 @@ public:
         , word const& name = "geochemistryFirstOrderKinetic"
     );
 
-    ~geochemistryFirstOrderKinetic ()
-    {}
+    ~geochemistryFirstOrderKinetic () = default;
 
         volScalarField const& 
     eps () const override
@@ -40,14 +45,9 @@ public:
     {
         return fluidThermo_.mu ();
     }
-        volScalarField const& 
-    massSourceTerm () const override
-    {
-        return massSourceTerm_;
-    }
 
-    void update () override
-    {}
+        void 
+    update () override;
 };
 
 } // namespace geochemistryModels

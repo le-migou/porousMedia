@@ -26,7 +26,7 @@ public:
         , soluteMedium& parent
         , word const& name
     )
-        : modelBase { parent, name }
+        : modelBase { parent, name, mesh }
     {}
 
         virtual 

@@ -8,6 +8,12 @@
 #include "mineralMediumList.H"
 #include "isothermalFluid.H"
 
+#define POROUS_MEDIA_REQUIRES_SOLUTE_MODEL(MODEL) \
+forAll(parent_.solutes (), i)                     \
+{                                                 \
+    parent.solute (i).init_model_##MODEL ();      \
+}
+
     namespace 
 Foam
 {
@@ -21,6 +27,8 @@ porousMedium
     solver_;
         IOdictionary 
     dict_;
+        fvMesh const&
+    mesh_;
 
         soluteMediumList
     soluteList_;
@@ -61,6 +69,16 @@ public:
     {
         return dict_;
     }
+        auto& 
+    mesh ()
+    {
+        return mesh_;
+    }
+        auto const& 
+    mesh () const
+    {
+        return mesh_;
+    }
         auto const& 
     thermo () const
     {
@@ -90,6 +108,17 @@ public:
     soluteConcentration (label soluteIndex) 
     {
         return soluteList_[soluteIndex].concentration ();
+    }
+
+        auto const& 
+    minerals () const
+    {
+        return mineralList_;
+    }
+        auto const& 
+    mineral (label mineralIndex) const
+    {
+        return mineralList_[mineralIndex];
     }
 
     // Update the properties after a new velocity field has been computed
@@ -147,11 +176,13 @@ public:
     }
 
     // Source term for the flow solver
+    /*
         auto const& 
     massSourceTerm () const
     {
         return geochemistryModel_->massSourceTerm ();
     }
+    */
 
     // Gravitational acceleration
         auto const& 

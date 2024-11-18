@@ -29,6 +29,7 @@ geochemistryNone::geochemistryNone (
         , mesh
         , eps0_
       }
+    /*
     , massSourceTerm_ {
           IOobject {
               "massSourceTerm"
@@ -40,6 +41,7 @@ geochemistryNone::geochemistryNone (
         , mesh
         , dimensionedScalar { dimless/dimTime, 0 }
     }
+        */
 {}
 
 } // namespace geochemistryModels

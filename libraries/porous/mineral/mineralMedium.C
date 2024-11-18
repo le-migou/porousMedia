@@ -6,7 +6,7 @@ Foam::mineralMedium::mineralMedium (
     , porousMedium& parent
     , word const& name
 )
-    : mediumBase { parent, name }
+    : mediumBase { parent, name, mesh }
     , volumeFraction_ { 
             IOobject {
               "Ys." + name
@@ -17,4 +17,12 @@ Foam::mineralMedium::mineralMedium (
             }
         , mesh
       }
-{}
+{
+    if (name == "inert")
+    {
+        FatalIOErrorInFunction(dict ())
+            << "Mineral name \"inert\" is reserved in dictionary "
+            << dict ().name()
+            << exit(FatalIOError);
+    }
+}

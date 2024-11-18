@@ -11,24 +11,24 @@ soluteMediumList
     : public nonCopyable
 {
         PtrList <soluteMedium>
-    data_;
+    solutes_;
 public:
     soluteMediumList (fvMesh const& mesh, porousMedium& parent);
 
         auto const&
     operator [] (label index) const
     {
-        return data_[index];
+        return solutes_[index];
     }
         auto&
     operator [] (label index)
     {
-        return data_[index];
+        return solutes_[index];
     }
         auto
     size () const
     {
-        return data_.size ();
+        return solutes_.size ();
     }
 };
 } // namespace Foam
