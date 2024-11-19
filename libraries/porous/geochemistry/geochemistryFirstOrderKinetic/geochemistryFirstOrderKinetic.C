@@ -22,6 +22,8 @@ geochemistryFirstOrderKinetic::geochemistryFirstOrderKinetic (
     // FIXME: how do I construct this as an empty field?
     , eps_ { parent.minerals ().inertVolumeFraction () }
 {
+    POROUS_MEDIA_REQUIRES_SOLUTE_MODEL(dispersion)
+    POROUS_MEDIA_REQUIRES_MINERAL_MODEL(surfaceArea)
     update_porosity ();
 }
 
@@ -74,7 +76,7 @@ geochemistryFirstOrderKinetic::update ()
         {
                 const auto&
             mineral = parent ().mineral (i);
-            //Ak += mineral.surfaceArea () * mineral.rate () * mineral.activity ();
+            Ak += mineral.surfaceArea () * mineral.reactionRate ();
         }
         fvScalarMatrix Ceqn
         (

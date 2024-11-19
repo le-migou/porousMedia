@@ -14,6 +14,12 @@ forAll(parent_.solutes (), i)                     \
     parent.solute (i).init_model_##MODEL ();      \
 }
 
+#define POROUS_MEDIA_REQUIRES_MINERAL_MODEL(MODEL) \
+forAll(parent_.minerals (), i)                     \
+{                                                 \
+    parent.mineral (i).init_model_##MODEL ();      \
+}
+
     namespace 
 Foam
 {
@@ -46,10 +52,6 @@ porousMedium
     absolutePermeabilityModel_;
         uniformDimensionedVectorField 
     g_;
-    /*
-        PtrList <soluteMedium>
-    solutes_;
-    */
 
 public:
     TypeName ("porousMedium");
@@ -117,6 +119,11 @@ public:
     }
         auto const& 
     mineral (label mineralIndex) const
+    {
+        return mineralList_[mineralIndex];
+    }
+        auto& 
+    mineral (label mineralIndex)
     {
         return mineralList_[mineralIndex];
     }

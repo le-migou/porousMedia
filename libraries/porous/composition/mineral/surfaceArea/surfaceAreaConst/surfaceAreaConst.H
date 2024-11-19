@@ -14,9 +14,9 @@ surfaceAreaConst
     : public surfaceAreaModel
 {
         dimensionedTensor 
-    D0_;
+    A0_;
         volTensorField 
-    D_;
+    A_;
 
 public:
     TypeName ("surfaceAreaConst");
@@ -31,9 +31,9 @@ public:
     {}
 
         volTensorField const& 
-    D () const override
+    A () const override
     {
-        return D_;
+        return A_;
     }
 };
 

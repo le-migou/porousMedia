@@ -17,17 +17,17 @@ surfaceAreaConst::surfaceAreaConst (
     , word const& name
 )
     : surfaceAreaModel { mesh, parent, name }
-    , D0_ { "D0", dimLength * dimLength / dimTime, dict () }
-    , D_ {
+    , A0_ { "A0", dimless / dimLength, dict () }
+    , A_ {
           IOobject {
-              "D"
+              "A"
             , mesh.time ().name ()
             , mesh
             , IOobject::READ_IF_PRESENT
             , IOobject::AUTO_WRITE
           }
         , mesh
-        , D0_
+        , A0_
         , "zeroGradient"
     }
 {}

@@ -1,6 +1,18 @@
 #pragma once
 #include "base.H"
 
+#define POROUS_MEDIA_DECLARE_MODEL(MODEL)                     \
+private:                                                      \
+        autoPtr <MODEL##Model>                                \
+    MODEL##Model_ { nullptr };                                \
+public:                                                       \
+    void                                                      \
+init_model_##MODEL ()                                         \
+{                                                             \
+    if (MODEL##Model_.valid ()) return;                       \
+    MODEL##Model_ = MODEL##Model::New (mesh (), *this);       \
+}
+
     namespace
 Foam
 {
