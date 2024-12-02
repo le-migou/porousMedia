@@ -1,34 +1,20 @@
 #pragma once
-#include "nonCopyable.H"
+#include "mediumList.H"
 #include "soluteMedium.H"
 
     namespace
 Foam
 {
     class porousMedium;
+
     class
 soluteMediumList
-    : public nonCopyable
+    : public mediumList <soluteMedium>
 {
-        PtrList <soluteMedium>
-    solutes_;
 public:
-    soluteMediumList (fvMesh const& mesh, porousMedium& parent);
-
-        auto const&
-    operator [] (label index) const
-    {
-        return solutes_[index];
-    }
-        auto&
-    operator [] (label index)
-    {
-        return solutes_[index];
-    }
-        auto
-    size () const
-    {
-        return solutes_.size ();
-    }
+    soluteMediumList (
+          fvMesh       const& mesh
+        , porousMedium const& porous_medium
+    );
 };
 } // namespace Foam

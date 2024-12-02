@@ -1,7 +1,6 @@
 #pragma once
 #include "fvMesh.H"
 #include "mediumBase.H"
-#include "nonCopyable.H"
 #include "volFields.H"
 #include "dispersionModel.H"
 
@@ -9,24 +8,21 @@
 Foam
 {
     class porousMedium;
+
     class
 soluteMedium 
-    : public nonCopyable
-    , public mediumBase <porousMedium>
+    : public mediumBase
 {
         volScalarField
     concentration_;
+
 public:
 
-    POROUS_MEDIA_DECLARE_MODEL(dispersion)
-
     soluteMedium (
-          const fvMesh& mesh
-        , porousMedium& parent
-        , word const& name
+          fvMesh       const& mesh
+        , porousMedium const& porous_medium
+        , word         const& name
     );
-
-    ~soluteMedium () = default;
 
         volScalarField&
     concentration ()
@@ -42,7 +38,8 @@ public:
         const auto&
     D () const
     {
-        return dispersionModel_->D ();
+        return get_model <dispersionModel> ("dispersion") -> D ();
+        //return dispersionModel_->D ();
     }
 };
 } // namespace Foam

@@ -17,12 +17,13 @@ public:
     TypeName ("geochemistryTransportOnly");
 
     geochemistryTransportOnly (
-          fvMesh const& mesh
-        , porousMedium& parent
-        , word const& name = "geochemistryTransportOnly"
+          fvMesh       const& mesh
+        , porousMedium      & porous_medium
+        , word         const& name = "geochemistryTransportOnly"
     );
 
-    ~geochemistryTransportOnly () = default;
+        void 
+    initialize () override;
 
         void 
     update () override;

@@ -22,17 +22,26 @@ public:
     TypeName ("absolutePermeabilityConst");
 
     absolutePermeabilityConst (
-          const fvMesh& mesh
-        , porousMedium& parent
-        , word const& name = "absolutePermeabilityConst"
+          fvMesh       const& mesh
+        , porousMedium      & porous_medium
+        , word         const& name = "absolutePermeabilityConst"
     );
 
-    ~absolutePermeabilityConst ()
-    {}
-
-    volTensorField const& K () const override
+        volTensorField const& 
+    K () const override
     {
         return K_;
+    }
+
+        void
+    initialize () override
+    {
+        // There is nothing to do
+    }
+        void
+    update () override
+    {
+        // There is nothing to do
     }
 };
 

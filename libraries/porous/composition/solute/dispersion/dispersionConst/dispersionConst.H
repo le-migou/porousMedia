@@ -22,18 +22,28 @@ public:
     TypeName ("dispersionConst");
 
     dispersionConst (
-          const fvMesh& mesh
-        , soluteMedium& parent
-        , word const& name = "dispersionConst"
+          fvMesh       const& mesh
+        , porousMedium const& porous_medium
+        , soluteMedium const& solute_medium
+        , word         const& name = "dispersionConst"
     );
-
-    ~dispersionConst ()
-    {}
 
         volTensorField const& 
     D () const override
     {
         return D_;
+    }
+
+        void
+    initialize () override
+    {
+        // There is nothing to do
+    }
+
+        void
+    update () override
+    {
+        // There is nothing to do
     }
 };
 

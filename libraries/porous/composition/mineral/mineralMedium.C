@@ -2,11 +2,11 @@
 #include "porousMedium.H"
 
 Foam::mineralMedium::mineralMedium (
-      const fvMesh& mesh
-    , porousMedium& parent
-    , word const& name
+      fvMesh       const& mesh
+    , porousMedium const& porous_medium
+    , word         const& name
 )
-    : mediumBase { parent, name, mesh }
+    : mediumBase { mesh, porous_medium, name }
     , volumeFraction_ { 
             IOobject {
               "Ys." + name
@@ -17,6 +17,7 @@ Foam::mineralMedium::mineralMedium (
             }
         , mesh
       }
+    , molarVolume_ { "Vm", dimVolume / dimMoles, dict () }
 {
     if (name == "inert")
     {

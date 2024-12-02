@@ -9,14 +9,15 @@ Foam
 dispersionModels
 {
 
-OPENFOAM_RUNTIME_SELECTOR_ADD(dispersionModel, dispersionConst)
+OPENFOAM_RTS_MODEL_ADD(dispersionModel, dispersionConst)
 
 dispersionConst::dispersionConst (
-      const fvMesh& mesh
-    , soluteMedium& parent
-    , word const& name
+          fvMesh       const& mesh
+        , porousMedium const& porous_medium
+        , soluteMedium const& solute_medium
+        , word         const& name
 )
-    : dispersionModel { mesh, parent, name }
+    : dispersionModel { mesh, porous_medium, solute_medium, name }
     , D0_ { "D0", dimLength * dimLength / dimTime, dict () }
     , D_ {
           IOobject {
@@ -29,7 +30,7 @@ dispersionConst::dispersionConst (
         , mesh
         , D0_
         , "zeroGradient"
-    }
+      }
 {}
 
 } // namespace dispersionModels

@@ -1,7 +1,6 @@
 #pragma once
 #include "modelBase.H"
 #include "runtimeSelection.H"
-#include "nonCopyable.H"
 #include "fvMesh.H"
 #include "volFieldsFwd.H"
 #include "runTimeSelectionTables.H"
@@ -14,23 +13,20 @@ soluteMedium;
 
     class 
 dispersionModel
-    : public nonCopyable
-    , public modelBase <soluteMedium>
+    : public mediumModelBase <soluteMedium>
 {
 public:
     TypeName ("dispersion");
-    OPENFOAM_RUNTIME_SELECTOR_DECLARATION(dispersionModel, soluteMedium)
+    OPENFOAM_RTS_MEDIUM_MODEL_DECLARATION(dispersionModel, soluteMedium)
 
     dispersionModel (
-          const fvMesh& mesh
-        , soluteMedium& parent
-        , word const& name
+          fvMesh       const& mesh
+        , porousMedium const& porous_medium
+        , soluteMedium const& solute_medium
+        , word         const& name
     )
-        : modelBase { parent, name, mesh }
+        : mediumModelBase { mesh, porous_medium, solute_medium, name }
     {}
-
-        virtual 
-    ~dispersionModel () = default;
 
     // Dispersion tensor
         virtual volTensorField const& 

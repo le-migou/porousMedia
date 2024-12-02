@@ -1,6 +1,6 @@
 #pragma once
 #include "../surfaceAreaModel.H"
-#include "dimensionedTensor.H"
+#include "dimensionedScalar.H"
 #include "volFields.H"
 
     namespace 
@@ -13,27 +13,37 @@ surfaceAreaModels
 surfaceAreaConst
     : public surfaceAreaModel
 {
-        dimensionedTensor 
+        dimensionedScalar 
     A0_;
-        volTensorField 
+        volScalarField 
     A_;
 
 public:
     TypeName ("surfaceAreaConst");
 
     surfaceAreaConst (
-          const fvMesh& mesh
-        , mineralMedium& parent
-        , word const& name = "surfaceAreaConst"
+          fvMesh        const& mesh
+        , porousMedium  const& porous_medium
+        , mineralMedium const& mineral_medium
+        , word          const& name = "surfaceAreaConst"
     );
 
-    ~surfaceAreaConst ()
-    {}
-
-        volTensorField const& 
+        volScalarField const& 
     A () const override
     {
         return A_;
+    }
+
+        void
+    initialize () override
+    {
+        // There is nothing to do
+    }
+
+        void
+    update () override
+    {
+        // There is nothing to do
     }
 };
 

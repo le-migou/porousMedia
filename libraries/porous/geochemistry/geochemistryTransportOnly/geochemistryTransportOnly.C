@@ -11,38 +11,44 @@ Foam
 geochemistryModels
 {
 
-OPENFOAM_RUNTIME_SELECTOR_ADD(geochemistryModel, geochemistryTransportOnly)
+OPENFOAM_RTS_MODEL_ADD(geochemistryModel, geochemistryTransportOnly)
 
 geochemistryTransportOnly::geochemistryTransportOnly (
-      fvMesh const& mesh
-    , porousMedium& parent
-    , word const& name
+      fvMesh       const& mesh
+    , porousMedium      & porous_medium
+    , word         const& name
 )
-    : geochemistryNone { mesh, parent, name }
+    : geochemistryNone { mesh, porous_medium, name }
 {
-    POROUS_MEDIA_REQUIRES_SOLUTE_MODEL(dispersion)
+    porous_medium.solutes ().add_model <dispersionModel> ("dispersion");
+}
+
+    void
+geochemistryTransportOnly::initialize ()
+{
+    // Nothing to do here
 }
 
     void
 geochemistryTransportOnly::update ()
 {
-    forAll (parent ().solutes (), i)
+    forAll (porous_medium ().solutes (), soluteIndex)
     {
             auto const&
-        solute = parent ().solute (i);
+        solute = porous_medium ().solute (soluteIndex);
             auto&
         C = solute.concentration ();
             auto const& 
         eps_ = eps ();
             auto const&
-        phiRho = parent ().phi ();
+        phiRho = porous_medium ().phi ();
             auto const 
-        rhof = fvc::interpolate (parent ().rho ());
+        rhof = fvc::interpolate (porous_medium ().rho ());
             auto const
         phi = phiRho / rhof;
         /* Or
             auto const
-        phi = fvc::flux (parent (). U());
+        phi = fvc::flux (porous_medium (). U());
         */
             auto const&
         D = solute.D ();

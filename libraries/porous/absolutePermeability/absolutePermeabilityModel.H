@@ -1,7 +1,6 @@
 #pragma once
 #include "modelBase.H"
 #include "runtimeSelection.H"
-#include "nonCopyable.H"
 #include "fvMesh.H"
 #include "volFieldsFwd.H"
 #include "runTimeSelectionTables.H"
@@ -14,23 +13,18 @@ porousMedium;
 
     class 
 absolutePermeabilityModel
-    : public nonCopyable
-    , public modelBase <porousMedium>
+    : public modelBase
 {
 public:
     TypeName ("absolutePermeability");
-    OPENFOAM_RUNTIME_SELECTOR_DECLARATION(absolutePermeabilityModel, porousMedium)
+    OPENFOAM_RTS_MODEL_DECLARATION(absolutePermeabilityModel)
 
     absolutePermeabilityModel (
-          const fvMesh& mesh
-        , porousMedium& parent
-        , word const& name
+          fvMesh       const& mesh
+        , porousMedium      & porous_medium
+        , word         const& name
     )
-        : modelBase { parent, name, mesh }
-    {}
-
-        virtual 
-    ~absolutePermeabilityModel ()
+        : modelBase { mesh, porous_medium, name }
     {}
 
     // Absolute permeability

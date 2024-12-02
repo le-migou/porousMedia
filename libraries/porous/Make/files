@@ -1,26 +1,34 @@
-porousMedium.C
+base/base/base.C
+base/mediumBase/mediumBase.C
+base/mediumBase/mediumList.C
+base/modelBase/modelBase.C
+base/runtimeSelection/runtimeSelection.C
 
-absolutePermeability/absolutePermeabilityModel.C
-absolutePermeability/absolutePermeabilityConst/absolutePermeabilityConst.C
+composition/mineral/mineralMedium.C
+composition/mineral/mineralMediumList.C
+composition/mineral/surfaceArea/surfaceAreaModel.C
+composition/mineral/surfaceArea/surfaceAreaConst/surfaceAreaConst.C
+
+composition/solute/soluteMedium.C
+composition/solute/soluteMediumList.C
+composition/solute/dispersion/dispersionModel.C
+composition/solute/dispersion/dispersionConst/dispersionConst.C
+#composition/solute/dispersion/dispersionArchieLaw/dispersionArchieLaw.C
+
+composition/soluteMineralPair/soluteMineralPair.C
+composition/soluteMineralPair/soluteMineralPairList.C
+#composition/soluteMineralPair/reactionRate/reactionRateModel.C
+#composition/soluteMineralPair/reactionRate/reactionRateConst/reactionRateConst.C
 
 geochemistry/geochemistryModel.C
 geochemistry/geochemistryNone/geochemistryNone.C
 geochemistry/geochemistryTransportOnly/geochemistryTransportOnly.C
 #geochemistry/geochemistryFirstOrderKinetic/geochemistryFirstOrderKinetic.C
 
-composition/solute/soluteMedium.C
-composition/solute/soluteMediumList.C
+absolutePermeability/absolutePermeabilityModel.C
+absolutePermeability/absolutePermeabilityConst/absolutePermeabilityConst.C
+#absolutePermeability/absolutePermeabilityKozenyCarman/absolutePermeabilityKozenyCarman.C
 
-composition/solute/dispersion/dispersionModel.C
-composition/solute/dispersion/dispersionConst/dispersionConst.C
-
-composition/mineral/mineralMedium.C
-composition/mineral/mineralMediumList.C
-
-composition/mineral/surfaceArea/surfaceAreaModel.C
-composition/mineral/surfaceArea/surfaceAreaConst/surfaceAreaConst.C
-
-#composition/reactionRate/reactionRateModel.C
-#composition/reactionRate/reactionRateConst/reactionRateConst.C
+porousMedium.C
 
 LIB=$(FOAM_USER_LIBBIN)/libporous

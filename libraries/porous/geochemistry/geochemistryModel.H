@@ -1,7 +1,6 @@
 #pragma once
 #include "modelBase.H"
 #include "runtimeSelection.H"
-#include "nonCopyable.H"
 #include "fvMesh.H"
 #include "volFieldsFwd.H"
 #include "runTimeSelectionTables.H"
@@ -14,8 +13,7 @@ Foam
 
     class 
 geochemistryModel
-    : public nonCopyable
-    , public modelBase <porousMedium>
+    : public modelBase
 {
 protected:
         fluidThermo const& 
@@ -23,18 +21,13 @@ protected:
 
 public:
     TypeName ("geochemistryModel");
-    OPENFOAM_RUNTIME_SELECTOR_DECLARATION(geochemistryModel, porousMedium)
+    OPENFOAM_RTS_MODEL_DECLARATION(geochemistryModel)
 
     geochemistryModel (
-          fvMesh const& mesh
-        , porousMedium& parent
-        , word const& name
+          fvMesh       const& mesh
+        , porousMedium      & porous_medium // !
+        , word         const& name
     );
-
-        virtual 
-    ~geochemistryModel ()
-    {}
-
 
     // Porosity
         virtual volScalarField const& 
@@ -47,16 +40,6 @@ public:
     // Viscosity of the fluid
         virtual volScalarField const& 
     mu () const = 0;
-
-    // Source term for the flow solver
-    /*
-        virtual volScalarField const& 
-    massSourceTerm () const = 0;
-    */
-
-    // Update properties after a new velocity field  has been computed
-        virtual void 
-    update () = 0;
 };
 
 } // namespace Foam

@@ -1,4 +1,4 @@
 #include "dispersionModel.H"
 #include "porousMedium.H"
 
-OPENFOAM_RUNTIME_SELECTOR_IMPLEMENTATION(dispersionModel, soluteMedium, dispersion)
+OPENFOAM_RTS_MEDIUM_MODEL_IMPLEMENTATION(dispersionModel, dispersion, soluteMedium)

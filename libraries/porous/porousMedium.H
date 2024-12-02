@@ -1,24 +1,12 @@
 #pragma once
-#include "nonCopyable.H"
 #include "IOdictionary.H"
 #include "geochemistryModel.H"
 #include "absolutePermeabilityModel.H"
 #include "uniformDimensionedFields.H"
 #include "soluteMediumList.H"
 #include "mineralMediumList.H"
+#include "soluteMineralPairList.H"
 #include "isothermalFluid.H"
-
-#define POROUS_MEDIA_REQUIRES_SOLUTE_MODEL(MODEL) \
-forAll(parent_.solutes (), i)                     \
-{                                                 \
-    parent.solute (i).init_model_##MODEL ();      \
-}
-
-#define POROUS_MEDIA_REQUIRES_MINERAL_MODEL(MODEL) \
-forAll(parent_.minerals (), i)                     \
-{                                                 \
-    parent.mineral (i).init_model_##MODEL ();      \
-}
 
     namespace 
 Foam
@@ -29,6 +17,7 @@ Foam
 porousMedium
     : public nonCopyable
 {       
+
         solvers::isothermalFluid const&
     solver_;
         IOdictionary 
@@ -40,11 +29,13 @@ porousMedium
     soluteList_;
         mineralMediumList
     mineralList_;
+        soluteMineralPairList
+    soluteMineralPairList_;
     
     // The thermo-physical package for the pure fluid.
     // It is here because it is it who owns the pressure fields (for some
     // reasons)
-        autoPtr<fluidThermo> 
+        autoPtr <fluidThermo> 
     fluidThermo_;
         autoPtr <geochemistryModel> 
     geochemistryModel_;
@@ -54,6 +45,7 @@ porousMedium
     g_;
 
 public:
+
     TypeName ("porousMedium");
 
     porousMedium (const fvMesh& mesh, solvers::isothermalFluid const& solver);
@@ -71,13 +63,9 @@ public:
     {
         return dict_;
     }
-        auto& 
-    mesh ()
-    {
-        return mesh_;
-    }
-        auto const& 
+        auto
     mesh () const
+        -> fvMesh const&
     {
         return mesh_;
     }
@@ -91,6 +79,11 @@ public:
     {
         return soluteList_;
     }
+        auto& 
+    solutes ()
+    {
+        return soluteList_;
+    }
         auto const& 
     solute (label soluteIndex) const
     {
@@ -101,17 +94,6 @@ public:
     {
         return soluteList_[soluteIndex];
     }
-        const auto& 
-    soluteConcentration (label soluteIndex) const
-    {
-        return soluteList_[soluteIndex].concentration ();
-    }
-        auto& 
-    soluteConcentration (label soluteIndex) 
-    {
-        return soluteList_[soluteIndex].concentration ();
-    }
-
         auto const& 
     minerals () const
     {
@@ -127,13 +109,30 @@ public:
     {
         return mineralList_[mineralIndex];
     }
+        auto const&
+    soluteMineralPairs () const
+    {
+        return soluteMineralPairList_;
+    }
+        auto&
+    soluteMineralPairs ()
+    {
+        return soluteMineralPairList_;
+    }
+        auto const&
+    soluteMineralPair (label soluteIndex, label mineralIndex) const
+    {
+        return soluteMineralPairList_ (soluteIndex, mineralIndex);
+    }
+        auto&
+    soluteMineralPair (label soluteIndex, label mineralIndex)
+    {
+        return soluteMineralPairList_ (soluteIndex, mineralIndex);
+    }
 
     // Update the properties after a new velocity field has been computed
         void
-    update ()
-    {
-        geochemistryModel_->update ();
-    }
+    update ();
 
     // Pressure
         auto const& 
@@ -181,15 +180,6 @@ public:
     {
         return geochemistryModel_->mu ();
     }
-
-    // Source term for the flow solver
-    /*
-        auto const& 
-    massSourceTerm () const
-    {
-        return geochemistryModel_->massSourceTerm ();
-    }
-    */
 
     // Gravitational acceleration
         auto const& 

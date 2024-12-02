@@ -1,4 +1,4 @@
 #include "surfaceAreaModel.H"
 #include "porousMedium.H"
 
-OPENFOAM_RUNTIME_SELECTOR_IMPLEMENTATION(surfaceAreaModel, mineralMedium, dispersion)
+OPENFOAM_RTS_MEDIUM_MODEL_IMPLEMENTATION(surfaceAreaModel, surface area, mineralMedium)

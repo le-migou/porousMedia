@@ -9,14 +9,14 @@ Foam
 geochemistryModels
 {
 
-OPENFOAM_RUNTIME_SELECTOR_ADD(geochemistryModel, geochemistryNone)
+OPENFOAM_RTS_MODEL_ADD(geochemistryModel, geochemistryNone)
 
 geochemistryNone::geochemistryNone (
-      fvMesh const& mesh
-    , porousMedium& parent
-    , word const& name
+      fvMesh       const& mesh
+    , porousMedium      & porous_media
+    , word         const& name
 )
-    : geochemistryModel { mesh, parent, name }
+    : geochemistryModel { mesh, porous_media, name }
     , eps0_  { "eps0", dimless, dict () }
     , eps_ {
           IOobject {

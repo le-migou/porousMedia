@@ -9,14 +9,14 @@ Foam
 absolutePermeabilityModels
 {
 
-OPENFOAM_RUNTIME_SELECTOR_ADD(absolutePermeabilityModel, absolutePermeabilityConst)
+OPENFOAM_RTS_MODEL_ADD(absolutePermeabilityModel, absolutePermeabilityConst)
 
 absolutePermeabilityConst::absolutePermeabilityConst (
-      const fvMesh& mesh
-    , porousMedium& parent
-    , word const& name
+      fvMesh       const& mesh
+    , porousMedium      & porous_medium
+    , word         const& name
 )
-    : absolutePermeabilityModel { mesh, parent, name }
+    : absolutePermeabilityModel { mesh, porous_medium, name }
     , K0_ { "K0", dimLength * dimLength, dict () }
     , K_ {
           IOobject {

@@ -20,11 +20,12 @@ Foam::porousMedium::porousMedium (
         , IOobject::NO_WRITE
         , true
       }}
-    , mesh_ { mesh }
-    , soluteList_  { mesh, *this }
-    , mineralList_ { mesh, *this }
-    , fluidThermo_ { fluidThermo::New (mesh) }
-    , geochemistryModel_ { geochemistryModel::New (mesh, *this) }
+    , mesh_                      { mesh }
+    , soluteList_                { mesh, *this }
+    , mineralList_               { mesh, *this }
+    , soluteMineralPairList_     { mesh, *this }
+    , fluidThermo_               { fluidThermo::New (mesh) }
+    , geochemistryModel_         { geochemistryModel::New (mesh, *this) }
     , absolutePermeabilityModel_ { absolutePermeabilityModel::New (mesh, *this) }
     , g_ { IOobject {
           "g"
@@ -33,4 +34,18 @@ Foam::porousMedium::porousMedium (
         , IOobject::MUST_READ
         , IOobject::NO_WRITE
       }}
-{}
+{
+    soluteList_.initialize ();
+    mineralList_.initialize ();
+    soluteMineralPairList_.initialize ();
+    geochemistryModel_->initialize ();
+    absolutePermeabilityModel_->initialize ();
+}
+
+    void
+Foam::porousMedium::update ()
+{
+    geochemistryModel_->update ();
+    absolutePermeabilityModel_->update ();
+    // TODO: update thermo
+}

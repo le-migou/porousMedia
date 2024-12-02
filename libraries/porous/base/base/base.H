@@ -2,75 +2,67 @@
 #include "dictionary.H"
 #include "fvMesh.H"
 #include "fvMesh.H"
+#include "nonCopyable.H"
 
-namespace
+    namespace
 Foam
 {
-    template <class ModelParent>
+    class porousMedium;
+
+// Base class for media and models
     class
 base
+    : nonCopyable
 {
 protected: 
-        ModelParent const&
-    parent_;
-        word
-    name_;
-        dictionary const&
-    dict_;
-        fvMesh const&
+        const fvMesh&
     mesh_;
+        const porousMedium&
+    porous_medium_;
+        const word
+    name_;
+        const dictionary&
+    dict_;
 public:
     base (
-          ModelParent const& parent
-        , word const& name
-        , dictionary const& dict
-        , fvMesh const& mesh
+          fvMesh       const& mesh
+        , porousMedium const& porous_medium
+        , word         const& name
+        , dictionary   const& dict
     )
-        : parent_ { parent }
-        , name_ { name }
-        , dict_ { dict }
-        , mesh_ { mesh }
+        : mesh_          { mesh          }
+        , porous_medium_ { porous_medium }
+        , name_          { name          }
+        , dict_          { dict          }
     {}
 
-        auto& 
-    parent ()
-    {
-        return parent_;
-    }
+        virtual
+    ~base () = default;
+
         const auto& 
-    parent () const
+    porous_medium () const
     {
-        return parent_;
-    }
-        auto&
-    name ()
-    {
-        return name_;
+        return porous_medium_;
     }
         const auto&
     name () const
     {
         return name_;
     }
-        auto&
-    dict ()
-    {
-        return dict_;
-    }
         const auto&
     dict () const
     {
         return dict_;
-    }
-        auto&
-    mesh ()
-    {
-        return mesh_;
     }
         const auto&
     mesh () const
     {
         return mesh_;
     }
+
+    // Called after all media and model objects are constructed
+        virtual void
+    initialize () = 0;
+
 };
 } // namespace Foam

@@ -22,13 +22,10 @@ public:
     TypeName ("geochemistryNone");
 
     geochemistryNone (
-          fvMesh const& mesh
-        , porousMedium& parent
-        , word const& name = "geochemistryNone"
+          fvMesh       const& mesh
+        , porousMedium      & porous_media
+        , word         const& name = "geochemistryNone"
     );
-
-    ~geochemistryNone ()
-    {}
 
         volScalarField const& 
     eps () const override
@@ -46,8 +43,15 @@ public:
         return fluidThermo_.mu ();
     }
 
+    void initialize () override
+    {
+        // There is nothing to do
+    }
+
     void update () override
-    {}
+    {
+        // There is nothing to do
+    }
 };
 
 } // namespace geochemistryModels

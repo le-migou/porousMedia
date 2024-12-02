@@ -1,7 +1,6 @@
 #pragma once
 #include "modelBase.H"
 #include "runtimeSelection.H"
-#include "nonCopyable.H"
 #include "fvMesh.H"
 #include "volFieldsFwd.H"
 #include "runTimeSelectionTables.H"
@@ -14,26 +13,23 @@ mineralMedium;
 
     class 
 surfaceAreaModel
-    : public nonCopyable
-    , public modelBase <mineralMedium>
+    : public mediumModelBase <mineralMedium>
 {
 public:
     TypeName ("surfaceArea");
-    OPENFOAM_RUNTIME_SELECTOR_DECLARATION(surfaceAreaModel, mineralMedium)
+    OPENFOAM_RTS_MEDIUM_MODEL_DECLARATION(surfaceAreaModel, mineralMedium)
 
     surfaceAreaModel (
-          const fvMesh& mesh
-        , mineralMedium& parent
-        , word const& name
+          fvMesh        const& mesh
+        , porousMedium  const& porous_medium
+        , mineralMedium const& mineral_medium
+        , word          const& name
     )
-        : modelBase { parent, name, mesh }
+        : mediumModelBase { mesh, porous_medium, mineral_medium, name }
     {}
 
-        virtual 
-    ~surfaceAreaModel () = default;
-
     // Dispersion tensor
-        virtual volTensorField const& 
+        virtual volScalarField const& 
     A () const = 0;
 };
 } // namespace Foam

@@ -1,7 +1,6 @@
 #pragma once
 #include "fvMesh.H"
 #include "mediumBase.H"
-#include "nonCopyable.H"
 #include "volFields.H"
 #include "surfaceAreaModel.H"
 
@@ -11,23 +10,30 @@ Foam
     class porousMedium;
     class
 mineralMedium 
-    : public nonCopyable
-    , public mediumBase <porousMedium>
+    : public mediumBase
 {
         volScalarField
     volumeFraction_;
+        dimensionedScalar
+    molarVolume_;
+
 public:
-
-    POROUS_MEDIA_DECLARE_MODEL(surfaceArea)
-
     mineralMedium (
-          const fvMesh& mesh
-        , porousMedium& parent
-        , word const& name
+          fvMesh       const& mesh
+        , porousMedium const& porous_medium
+        , word         const& name
     );
 
-    ~mineralMedium () = default;
-
+        auto const&
+    molarVolume () const
+    {
+        return molarVolume_;
+    }
+        auto&
+    molarVolume ()
+    {
+        return molarVolume_;
+    }
         auto&
     volumeFraction ()
     {
@@ -41,12 +47,12 @@ public:
         auto&
     surfaceArea ()
     {
-        return surfaceAreaModel_-> A ();
+        return get_model <surfaceAreaModel> ("surfaceArea") -> A ();
     }
         const auto&
     surfaceArea () const
     {
-        return surfaceAreaModel_-> A ();
+        return get_model <surfaceAreaModel> ("surfaceArea") -> A ();
     }
 };
 } // namespace Foam

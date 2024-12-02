@@ -1,4 +1,4 @@
 #include "absolutePermeabilityModel.H"
 #include "porousMedium.H"
 
-OPENFOAM_RUNTIME_SELECTOR_IMPLEMENTATION(absolutePermeabilityModel, porousMedium, absolute permeability)
+OPENFOAM_RTS_MODEL_IMPLEMENTATION(absolutePermeabilityModel, absolute permeability)

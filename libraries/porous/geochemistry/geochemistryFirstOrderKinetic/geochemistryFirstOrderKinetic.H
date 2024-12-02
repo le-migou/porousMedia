@@ -24,11 +24,9 @@ public:
 
     geochemistryFirstOrderKinetic (
           fvMesh const& mesh
-        , porousMedium& parent
+        , porousMedium& porous_medium
         , word const& name = "geochemistryFirstOrderKinetic"
     );
-
-    ~geochemistryFirstOrderKinetic () = default;
 
         volScalarField const& 
     eps () const override
@@ -45,6 +43,9 @@ public:
     {
         return fluidThermo_.mu ();
     }
+
+        void 
+    initialize () override;
 
         void 
     update () override;

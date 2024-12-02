@@ -2,11 +2,11 @@
 #include "porousMedium.H"
 
 Foam::soluteMedium::soluteMedium (
-      const fvMesh& mesh
-    , porousMedium& parent
-    , word const& name
+      fvMesh       const& mesh
+    , porousMedium const& porous_medium
+    , word         const& name
 )
-    : mediumBase { parent, name, mesh }
+    : mediumBase { mesh, porous_medium, name }
     , concentration_ { 
             IOobject {
               "C." + name

@@ -9,14 +9,15 @@ Foam
 surfaceAreaModels
 {
 
-OPENFOAM_RUNTIME_SELECTOR_ADD(surfaceAreaModel, surfaceAreaConst)
+OPENFOAM_RTS_MODEL_ADD(surfaceAreaModel, surfaceAreaConst)
 
 surfaceAreaConst::surfaceAreaConst (
-      const fvMesh& mesh
-    , mineralMedium& parent
-    , word const& name
+      fvMesh        const& mesh
+    , porousMedium  const& porous_medium
+    , mineralMedium const& mineral_medium
+    , word          const& name
 )
-    : surfaceAreaModel { mesh, parent, name }
+    : surfaceAreaModel { mesh, porous_medium, mineral_medium, name }
     , A0_ { "A0", dimless / dimLength, dict () }
     , A_ {
           IOobject {
