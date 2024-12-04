@@ -13,7 +13,9 @@ geochemistryFirstOrderKinetic
     : public geochemistryModel
 {
         volScalarField 
-    eps_;
+    porosity_;
+        volScalarField 
+    old_porosity_;
 
         void
     update_porosity ();
@@ -29,17 +31,22 @@ public:
     );
 
         volScalarField const& 
-    eps () const override
+    porosity () const override
     {
-        return eps_;
+        return porosity_;
     }
         volScalarField const& 
-    rho () const override
+    old_porosity () const override
+    {
+        return old_porosity_;
+    }
+        volScalarField const& 
+    density () const override
     {
         return fluidThermo_.rho ();
     }
         volScalarField const& 
-    mu () const override
+    dynamic_viscosity () const override
     {
         return fluidThermo_.mu ();
     }

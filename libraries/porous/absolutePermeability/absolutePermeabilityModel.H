@@ -29,6 +29,6 @@ public:
 
     // Absolute permeability
         virtual volTensorField const& 
-    K () const = 0;
+    permeability () const = 0;
 };
 } // namespace Foam

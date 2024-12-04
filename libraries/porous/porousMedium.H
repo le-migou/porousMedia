@@ -136,54 +136,54 @@ public:
 
     // Pressure
         auto const& 
-    p () const
+    pressure () const
     {
         return fluidThermo_->p ();
     }
     // Velocity
        auto const&
-    U () const
+    velocity () const
     {
         return solver_.U;
     }
     // Velocity (flux at the faces)
        auto const&
-    phi () const
+    velocity_flux () const
     {
         return solver_.phi;
     }
 
     // Porosity
         auto const& 
-    eps () const
+    porosity () const
     {
-        return geochemistryModel_->eps ();
+        return geochemistryModel_ -> porosity ();
     }
 
     // Absolute permeability
         auto const& 
-    K () const
+    permeability () const
     {
-        return absolutePermeabilityModel_->K ();
+        return absolutePermeabilityModel_ -> permeability ();
     }
 
     // Density of the fluid
         auto const& 
-    rho () const
+    density () const
     {
-        return geochemistryModel_->rho ();
+        return geochemistryModel_ -> density ();
     }
 
     // Viscosity of the fluid
         auto const& 
-    mu () const
+    dynamic_viscosity () const
     {
-        return geochemistryModel_->mu ();
+        return geochemistryModel_ -> dynamic_viscosity ();
     }
 
     // Gravitational acceleration
         auto const& 
-    g () const
+    gravity () const
     {
         return g_;
     }

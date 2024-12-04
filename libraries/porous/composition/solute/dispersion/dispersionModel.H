@@ -30,6 +30,6 @@ public:
 
     // Dispersion tensor
         virtual volTensorField const& 
-    D () const = 0;
+    dispersion () const = 0;
 };
 } // namespace Foam

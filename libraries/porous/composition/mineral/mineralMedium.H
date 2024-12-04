@@ -44,15 +44,10 @@ public:
     {
         return volumeFraction_;
     }
-        auto&
-    surfaceArea ()
-    {
-        return get_model <surfaceAreaModel> ("surfaceArea") -> A ();
-    }
         const auto&
-    surfaceArea () const
+    surface_area () const
     {
-        return get_model <surfaceAreaModel> ("surfaceArea") -> A ();
+        return get_model <surfaceAreaModel> ("surfaceArea") -> surface_area ();
     }
 };
 } // namespace Foam

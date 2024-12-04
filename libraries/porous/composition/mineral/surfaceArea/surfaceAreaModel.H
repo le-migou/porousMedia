@@ -30,6 +30,6 @@ public:
 
     // Dispersion tensor
         virtual volScalarField const& 
-    A () const = 0;
+    surface_area () const = 0;
 };
 } // namespace Foam

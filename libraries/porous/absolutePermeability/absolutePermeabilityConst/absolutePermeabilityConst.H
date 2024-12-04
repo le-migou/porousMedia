@@ -14,9 +14,9 @@ absolutePermeabilityConst
     : public absolutePermeabilityModel
 {
         dimensionedTensor 
-    K0_;
+    initial_permeability_;
         volTensorField 
-    K_;
+    permeability_;
 
 public:
     TypeName ("absolutePermeabilityConst");
@@ -28,9 +28,9 @@ public:
     );
 
         volTensorField const& 
-    K () const override
+    permeability () const override
     {
-        return K_;
+        return permeability_;
     }
 
         void

@@ -18,17 +18,17 @@ dispersionConst::dispersionConst (
         , word         const& name
 )
     : dispersionModel { mesh, porous_medium, solute_medium, name }
-    , D0_ { "D0", dimLength * dimLength / dimTime, dict () }
-    , D_ {
+    , initial_dispersion_ { "initial_dispersion", dimLength * dimLength / dimTime, dict () }
+    , dispersion_ {
           IOobject {
-              "D"
+              "dispersion"
             , mesh.time ().name ()
             , mesh
             , IOobject::READ_IF_PRESENT
             , IOobject::AUTO_WRITE
           }
         , mesh
-        , D0_
+        , initial_dispersion_
         , "zeroGradient"
       }
 {}

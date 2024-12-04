@@ -19,9 +19,9 @@ geochemistryFirstOrderKinetic::geochemistryFirstOrderKinetic (
     , word         const& name
 )
     : geochemistryModel { mesh, porous_medium, name }
-    , eps_ {
+    , porosity_ {
             IOobject {
-              "eps"
+              "porosity"
             , mesh.time ().name ()
             , mesh
             , IOobject::NO_READ
@@ -30,22 +30,29 @@ geochemistryFirstOrderKinetic::geochemistryFirstOrderKinetic (
         , mesh
         , dimensionedScalar { dimless, 0 }
       }
+    , old_porosity_ { porosity_ }
 {
     porous_medium.solutes ().add_model <surfaceAreaModel> ("surfaceArea");
     porous_medium.soluteMineralPairs ().add_model <reactionRateModel> ("reactionRate");
-    // FIXME: this goes in initialize()
-    // update_porosity ();
 }
+
+    void
+geochemistryFirstOrderKinetic::initialize ()
+{
+    update_porosity ();
+}
+
 
     void
 geochemistryFirstOrderKinetic::update_porosity ()
 {
-    eps_ = porous_medium_.minerals ().inertVolumeFraction ();
+    old_porosity_ = porosity_;
+    porosity_ = porous_medium_.minerals ().inertVolumeFraction ();
     forAll (porous_medium_.minerals (), mineralIndex)
     {
-        eps_ += porous_medium_.mineral (mineralIndex).volumeFraction ();
+        porosity_ += porous_medium_.mineral (mineralIndex).volumeFraction ();
     }
-    eps_ = 1. - eps_;
+    porosity_ = 1. - porosity_;
 }
 
     void
@@ -59,17 +66,17 @@ geochemistryFirstOrderKinetic::update ()
             auto&
         C = solute.concentration ();
             auto const&
-        phiRho = porous_medium ().phi ();
+        phiRho = porous_medium ().velocity_flux ();
             auto const 
-        rhof = fvc::interpolate (porous_medium ().rho ());
+        rhof = fvc::interpolate (porous_medium ().density ());
             auto const
         phi = phiRho / rhof;
         /* Or
             auto const
-        phi = fvc::flux (porous_medium (). U());
+        phi = fvc::flux (porous_medium ().velocity());
         */
             auto const&
-        D = solute.D ();
+        D = solute.dispersion ();
             auto
         Ak = volScalarField { 
               IOobject {
@@ -91,15 +98,15 @@ geochemistryFirstOrderKinetic::update ()
                   soluteIndex
                 , mineralIndex
             );
-            Ak += mineral.surfaceArea () 
-                * soluteMineralPair.reactionRate ();
+            Ak += mineral.surface_area () 
+                * soluteMineralPair.reaction_rate ();
         }
             auto 
         Ceqn = fvScalarMatrix
         {
-              fvm::ddt (eps_, C) 
+              fvm::ddt (porosity_, C) 
             + fvm::div (phi, C, "div(phi,C)") 
-            - fvm::laplacian (eps_ * D, C, "laplacian(eps*D,C)")
+            - fvm::laplacian (porosity_ * D, C, "laplacian(eps*D,C)")
             - fvm::Sp (Ak, C)
         };
         Ceqn.relax ();

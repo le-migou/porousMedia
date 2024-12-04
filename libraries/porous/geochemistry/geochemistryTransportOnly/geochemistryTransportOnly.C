@@ -39,11 +39,11 @@ geochemistryTransportOnly::update ()
             auto&
         C = solute.concentration ();
             auto const& 
-        eps_ = eps ();
+        eps_ = porosity ();
             auto const&
-        phiRho = porous_medium ().phi ();
+        phiRho = porous_medium ().velocity_flux ();
             auto const 
-        rhof = fvc::interpolate (porous_medium ().rho ());
+        rhof = fvc::interpolate (porous_medium ().density ());
             auto const
         phi = phiRho / rhof;
         /* Or
@@ -51,7 +51,7 @@ geochemistryTransportOnly::update ()
         phi = fvc::flux (porous_medium (). U());
         */
             auto const&
-        D = solute.D ();
+        D = solute.dispersion ();
         fvScalarMatrix Ceqn
         (
               fvm::ddt (eps_, C) 

@@ -14,9 +14,9 @@ dispersionConst
     : public dispersionModel
 {
         dimensionedTensor 
-    D0_;
+    initial_dispersion_;
         volTensorField 
-    D_;
+    dispersion_;
 
 public:
     TypeName ("dispersionConst");
@@ -29,9 +29,9 @@ public:
     );
 
         volTensorField const& 
-    D () const override
+    dispersion () const override
     {
-        return D_;
+        return dispersion_;
     }
 
         void

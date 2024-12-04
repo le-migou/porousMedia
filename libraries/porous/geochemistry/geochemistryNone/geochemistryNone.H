@@ -13,9 +13,9 @@ geochemistryNone
     : public geochemistryModel
 {
         dimensionedScalar 
-    eps0_;
+    initial_porosity_;
         volScalarField 
-    eps_;
+    porosity_;
 
 public:
 
@@ -28,17 +28,17 @@ public:
     );
 
         volScalarField const& 
-    eps () const override
+    porosity () const override
     {
-        return eps_;
+        return porosity_;
     }
         volScalarField const& 
-    rho () const override
+    density () const override
     {
         return fluidThermo_.rho ();
     }
         volScalarField const& 
-    mu () const override
+    dynamic_viscosity () const override
     {
         return fluidThermo_.mu ();
     }

@@ -43,7 +43,7 @@ public:
         , porousMedium_ { mesh, *this }
         , muInvK_ { 
               momentumTransport->nu() * momentumTransport->rho() 
-            / porousMedium_.K ().component (tensor::XX)
+            / porousMedium_.permeability ().component (tensor::XX)
           }
     {}
 

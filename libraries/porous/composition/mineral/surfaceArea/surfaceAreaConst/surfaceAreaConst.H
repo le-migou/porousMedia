@@ -14,9 +14,9 @@ surfaceAreaConst
     : public surfaceAreaModel
 {
         dimensionedScalar 
-    A0_;
+    initial_surface_area_;
         volScalarField 
-    A_;
+    surface_area_;
 
 public:
     TypeName ("surfaceAreaConst");
@@ -29,9 +29,9 @@ public:
     );
 
         volScalarField const& 
-    A () const override
+    surface_area () const override
     {
-        return A_;
+        return surface_area_;
     }
 
         void

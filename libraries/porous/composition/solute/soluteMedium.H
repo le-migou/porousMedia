@@ -36,10 +36,9 @@ public:
     }
 
         const auto&
-    D () const
+    dispersion () const
     {
-        return get_model <dispersionModel> ("dispersion") -> D ();
-        //return dispersionModel_->D ();
+        return get_model <dispersionModel> ("dispersion") -> dispersion ();
     }
 };
 } // namespace Foam

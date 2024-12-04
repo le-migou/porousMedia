@@ -31,15 +31,15 @@ public:
 
     // Porosity
         virtual volScalarField const& 
-    eps () const = 0;
+    porosity () const = 0;
 
     // Density of the fluid
         virtual volScalarField const& 
-    rho () const = 0;
+    density () const = 0;
 
     // Viscosity of the fluid
         virtual volScalarField const& 
-    mu () const = 0;
+    dynamic_viscosity () const = 0;
 };
 
 } // namespace Foam

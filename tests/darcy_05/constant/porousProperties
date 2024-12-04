@@ -18,7 +18,7 @@ absolutePermeabilityModel absolutePermeabilityConst;
 
 absolutePermeabilityConstParameters
 {
-    K0 (
+    initial_permeability (
         1e-8  0     0
         0     1e-8  0
         0     0     1e-8 
@@ -29,7 +29,7 @@ geochemistryModel geochemistryTransportOnly;
 
 geochemistryTransportOnlyParameters
 {
-    eps0 0.2;
+    initial_porosity 0.2;
 }
 
 solutes (tracer);
@@ -39,7 +39,7 @@ tracerProperties
     dispersionModel dispersionConst;
     dispersionConstParameters
     {
-        D0 (
+        initial_dispersion (
             1e-5 0    0
             0    1e-5 0
             0    0    1e-5

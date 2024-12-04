@@ -17,17 +17,17 @@ absolutePermeabilityConst::absolutePermeabilityConst (
     , word         const& name
 )
     : absolutePermeabilityModel { mesh, porous_medium, name }
-    , K0_ { "K0", dimLength * dimLength, dict () }
-    , K_ {
+    , initial_permeability_ { "initial_permeability", dimLength * dimLength, dict () }
+    , permeability_ {
           IOobject {
-              "K"
+              "permeability"
             , mesh.time ().name ()
             , mesh
             , IOobject::READ_IF_PRESENT
             , IOobject::AUTO_WRITE
           }
         , mesh
-        , K0_
+        , initial_permeability_
         , "zeroGradient"
     }
 {}

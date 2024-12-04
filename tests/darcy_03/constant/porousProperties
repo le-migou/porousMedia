@@ -18,7 +18,7 @@ absolutePermeabilityModel absolutePermeabilityConst;
 
 absolutePermeabilityConstParameters
 {
-    K0 (
+    initial_permeability (
         1e-15 0     0
         0     1e-15 0
         0     0     1e-15
@@ -29,7 +29,7 @@ geochemistryModel geochemistryNone;
 
 geochemistryNoneParameters
 {
-    eps0 0.2;
+    initial_porosity 0.2;
 }
 
 // ************************************************************************* //

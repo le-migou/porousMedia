@@ -17,31 +17,18 @@ geochemistryNone::geochemistryNone (
     , word         const& name
 )
     : geochemistryModel { mesh, porous_media, name }
-    , eps0_  { "eps0", dimless, dict () }
-    , eps_ {
+    , initial_porosity_  { "initial_porosity", dimless, dict () }
+    , porosity_ {
           IOobject {
-              "eps"
+              "porosity"
             , mesh.time ().name ()
             , mesh
             , IOobject::NO_READ
             , IOobject::NO_WRITE
           }
         , mesh
-        , eps0_
+        , initial_porosity_
       }
-    /*
-    , massSourceTerm_ {
-          IOobject {
-              "massSourceTerm"
-            , mesh.time ().name ()
-            , mesh
-            , IOobject::NO_READ
-            , IOobject::NO_WRITE
-          }
-        , mesh
-        , dimensionedScalar { dimless/dimTime, 0 }
-    }
-        */
 {}
 
 } // namespace geochemistryModels

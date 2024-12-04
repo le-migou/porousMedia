@@ -18,17 +18,17 @@ surfaceAreaConst::surfaceAreaConst (
     , word          const& name
 )
     : surfaceAreaModel { mesh, porous_medium, mineral_medium, name }
-    , A0_ { "A0", dimless / dimLength, dict () }
-    , A_ {
+    , initial_surface_area_ { "initial_surface_area", dimless / dimLength, dict () }
+    , surface_area_ {
           IOobject {
-              "A"
+              "surface_area"
             , mesh.time ().name ()
             , mesh
             , IOobject::READ_IF_PRESENT
             , IOobject::AUTO_WRITE
           }
         , mesh
-        , A0_
+        , initial_surface_area_
         , "zeroGradient"
     }
 {}
